@@ -1,0 +1,117 @@
+﻿/* Navbar personalizada */
+
+* {
+    font-family: 'Montserrat', sans-serif;
+}
+.custom-navbar {
+    background-color: #1b1b1b; /* negro profundo */
+    padding: 10px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    top: 0;
+}
+
+    .custom-navbar .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .custom-navbar .navbar-brand {
+        color: #B18FFF; /* morado claro */
+        font-size: 24px;
+        font-weight: bold;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+        .custom-navbar .navbar-brand:hover {
+            color: #fff;
+        }
+
+    .custom-navbar .navbar-nav {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        gap: 25px;
+    }
+
+        .custom-navbar .navbar-nav li a {
+            color: #ddd;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+.custom-navbar .navbar-nav li a {
+    color: #ddd;
+    text-decoration: none;
+    font-size: 16px;
+    position: relative;
+    padding-bottom: 4px;
+    transition: color 0.3s ease;
+}
+
+.custom-navbar .navbar-nav li a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    width: 0%;
+    background-color: #B18FFF;
+    transition: width 0.3s ease;
+}
+
+.custom-navbar .navbar-nav li a:hover {
+    color: #fff;
+}
+
+    .custom-navbar .navbar-nav li a:hover::after {
+        width: 100%;
+    }
+
+/* Para evitar que el contenido quede detrás del navbar */
+.body-content {
+    padding-top: 80px;
+}
+
+/*limpiar cualquier diseño previo del bootstrap*/
+.custom-navbar .navbar-nav li a {
+    color: #ddd;
+    text-decoration: none;
+    font-size: 16px;
+    position: relative;
+    padding-bottom: 4px;
+    transition: color 0.3s ease;
+    background: none; /* evita cualquier fondo blanco */
+    border: none; /* elimina bordes */
+    outline: none; /* elimina el borde al hacer clic */
+}
+
+    .custom-navbar .navbar-nav li a::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        height: 2px;
+        width: 0%;
+        background-color: #B18FFF;
+        transition: width 0.3s ease;
+    }
+
+    .custom-navbar .navbar-nav li a:hover,
+    .custom-navbar .navbar-nav li a:focus {
+        color: #fff;
+        background: none;
+        border: none;
+        outline: none;
+    }
+
+        .custom-navbar .navbar-nav li a:hover::after,
+        .custom-navbar .navbar-nav li a:focus::after {
+            width: 100%;
+        }

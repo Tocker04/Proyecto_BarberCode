@@ -1,0 +1,332 @@
+﻿
+* {
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-image: linear-gradient(346deg, rgba(55, 55, 55,0.04) 0%, rgba(55, 55, 55,0.04) 22%, rgba(140, 140, 140,0.04) 22%, rgba(140, 140, 140,0.04) 69%, rgba(225, 225, 225,0.04) 69%, rgba(225, 225, 225,0.04) 100%), linear-gradient(31deg, rgba(55, 55, 55,0.04) 0%, rgba(55, 55, 55,0.04) 42%, rgba(140, 140, 140,0.04) 42%, rgba(140, 140, 140,0.04) 85%, rgba(225, 225, 225,0.04) 85%, rgba(225, 225, 225,0.04) 100%), linear-gradient(55deg, rgba(55, 55, 55,0.04) 0%, rgba(55, 55, 55,0.04) 13%, rgba(140, 140, 140,0.04) 13%, rgba(140, 140, 140,0.04) 72%, rgba(225, 225, 225,0.04) 72%, rgba(225, 225, 225,0.04) 100%), linear-gradient(90deg, rgb(0,0,0), rgb(0,0,0));
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+
+/*MAIN CONTENT ESTILOS*/
+#main-content {
+    height: 500px;
+    width: 70%;
+    margin: 30px auto; /* Centrado horizontal y separación arriba */
+
+    background-image: url('../Imagenes/fondo.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 20px;
+    border-radius: 20px; /* Borde redondeado */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); /* Sombra opcional */
+}
+
+    /* Título centrado */
+    #main-content h1 {
+        font-size: 100px;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        color: white;
+    }
+
+/* Logo centrado y con tamaño adecuado */
+.logo-barber {
+    width: 300px;
+    height: auto;
+    margin-bottom: 20px;
+    border-radius: 30px; /* bordes redondeados */
+}
+
+/* Botón con estilo */
+.btn-ingresar {
+    background-color: #4B0082;
+    color: white;
+    padding: 12px 30px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(75, 0, 130, 0.5);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .btn-ingresar:hover {
+        background-color: #360061;
+        box-shadow: 0 0 14px rgba(75, 0, 130, 0.7);
+    }
+
+/*SECOND CONTENT ESTILOS*/
+
+
+#second-content {
+    width: 70%;
+    margin: 30px auto; /* Centrado horizontal y separación arriba */
+    text-align: center;
+    background-color: #C0C0C0;
+    border-radius: 20px; /* mismo borde redondeado */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* sombra suave */
+    padding: 40px 30px;
+}
+
+
+    #second-content > h2 {
+        margin-bottom: 40px;
+        font-size: 36px;
+    }
+
+/* Estilo general para cada servicio */
+#corte-pelo, #barba, #lavado, #tinte {
+    display: flex;
+    align-items: flex-start; /* alinea imagen y texto arriba */
+    margin-bottom: 40px;
+    gap: 20px;
+
+    padding: 15px; /* espacio interno para que nada toque el borde */
+    box-sizing: border-box; /* para que el padding no aumente el ancho */
+}
+
+/* Imagen a la izquierda, tamaño uniforme */
+.corte-barber, .barba-barber, .lavado-barber {
+    width: 250px; /*aumentar tamaño */
+    height: auto;
+    border-radius: 10px;
+    flex-shrink: 0;
+    margin: 0 10px 0 0; /* margen derecho para separar la imagen del texto */
+}
+
+/* El título y el párrafo en una columna */
+#corte-pelo > div, #barba > div, #lavado > div, #tinte > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#corte-pelo h3, #barba h3, #lavado h3, #tinte h3 {
+    margin: 0;
+    margin-bottom: 10px;
+    align-self: flex-start;
+    font-size: 30px;
+}
+
+#corte-pelo p, #barba p, #lavado p, #tinte p {
+    margin: 0;
+    text-align: left;
+    max-width: 600px;
+    font-size: 20px;
+    text-align: justify;
+}
+
+
+#corte-pelo, #barba, #lavado, #tinte {
+    transition: box-shadow 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
+    cursor: pointer;
+    border-radius: 12px; /* Para que el efecto se vea bien con el borde */
+}
+
+    #corte-pelo:hover, #barba:hover, #lavado:hover, #tinte:hover {
+        transform: translateY(-5px);
+        background-color: #faf9f7; /* blanco hueso claro para resaltar */
+        border: 1.5px solid rgba(90, 0, 184, 0.5);
+        box-shadow: 
+            0 8px 20px rgba(75, 0, 130, 0.7), /* sombra intensa */
+            0 0 6px rgba(90, 0, 184, 0.25); /* sombra suave */
+    }
+
+
+
+/*THIRD-CONTENT ESTILOS*/
+
+#third-content {
+    width: 70%;
+    margin: 30px auto;
+    padding: 40px 20px;
+    background-color: #C0C0C0; /* color fondo */
+    border-radius: 20px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+    #third-content h2 {
+        font-size: 50px;
+        margin-bottom: 10px;
+        position: relative;
+        padding-bottom: 10px;
+    }
+
+        #third-content h2::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background-color: #4B0082;
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+    #third-content h3 {
+        font-size: 40px;
+        margin-top: 10px;
+    }
+
+   
+
+.icono-reloj {
+    margin-right: 10px;
+}
+
+
+/*FOOTER ESTILOS*/
+
+footer {
+    width: 70%;
+    margin: 0 auto 30px auto;
+    background-color: #C0C0C0;
+    color: #333;
+    text-align: center;
+    padding: 20px;
+    font-size: 16px;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-weight: 500;
+    transition: all 0.3s ease; /* transiciones suaves */
+}
+
+    /* Animación al pasar el mouse */
+    footer:hover {
+        background-color: #f0ebe6;
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    /*AMIMACIONES*/
+
+/* Animación de entrada */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Clases base para animación */
+.fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+    .fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+        animation: fadeInUp 0.6s ease-out;
+    }
+
+
+    /*RESPONSIVE*/
+
+@media (max-width: 1024px) {
+    #main-content,
+    #second-content,
+    #third-content,
+    footer {
+        width: 85%;
+        padding: 30px 15px;
+    }
+
+        #main-content h1 {
+            font-size: 60px;
+        }
+
+    .corte-barber,
+    .barba-barber,
+    .lavado-barber {
+        width: 200px;
+        margin: 0 auto 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    #main-content,
+    #second-content,
+    #third-content,
+    footer {
+        width: 95%;
+        padding: 20px 10px;
+    }
+
+        #main-content h1 {
+            font-size: 48px;
+        }
+
+    #corte-pelo,
+    #barba,
+    #lavado,
+    #tinte {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 15px;
+    }
+
+    .corte-barber,
+    .barba-barber,
+    .lavado-barber {
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto 15px;
+    }
+
+    #corte-pelo p,
+    #barba p,
+    #lavado p,
+    #tinte p {
+        font-size: 16px;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    #main-content h1 {
+        font-size: 36px;
+    }
+
+    #second-content > h2,
+    #third-content h2 {
+        font-size: 28px;
+    }
+
+    #corte-pelo h3,
+    #barba h3,
+    #lavado h3,
+    #tinte h3 {
+        font-size: 24px;
+    }
+
+    #corte-pelo p,
+    #barba p,
+    #lavado p,
+    #tinte p {
+        font-size: 14px;
+    }
+
+    .btn-ingresar {
+        font-size: 14px;
+        padding: 10px 20px;
+    }
+}

@@ -1,0 +1,77 @@
+﻿* {
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    background-image: linear-gradient(346deg, rgba(55, 55, 55,0.04) 0%, rgba(55, 55, 55,0.04) 22%,rgba(140, 140, 140,0.04) 22%, rgba(140, 140, 140,0.04) 69%,rgba(225, 225, 225,0.04) 69%, rgba(225, 225, 225,0.04) 100%),linear-gradient(31deg, rgba(55, 55, 55,0.04) 0%, rgba(55, 55, 55,0.04) 42%,rgba(140, 140, 140,0.04) 42%, rgba(140, 140, 140,0.04) 85%,rgba(225, 225, 225,0.04) 85%, rgba(225, 225, 225,0.04) 100%),linear-gradient(55deg, rgba(55, 55, 55,0.04) 0%, rgba(55, 55, 55,0.04) 13%,rgba(140, 140, 140,0.04) 13%, rgba(140, 140, 140,0.04) 72%,rgba(225, 225, 225,0.04) 72%, rgba(225, 225, 225,0.04) 100%),linear-gradient(90deg, rgb(0,0,0),rgb(0,0,0));
+}
+
+
+
+#first-content {
+    width: 70%;
+    margin: 30px auto; /* Centrado horizontal y separación arriba */
+    text-align: center;
+    background-color: #f1f1f1;
+    border-radius: 20px; /* mismo borde redondeado */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* sombra suave */
+    padding: 40px 30px;
+}
+
+
+    #first-content > h1 {
+        margin-bottom: 40px;
+        font-size: 4rem;
+        color: #800080;
+    }
+
+    #first-content > p {
+        margin-bottom: 40px;
+        font-size: 2rem;
+        color:black;
+        text-align:justify;
+    }
+
+    /*IMAGENES DEL CATALOGO*/
+
+#catalogo-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columnas */
+    gap: 40px; /* Espacio entre tarjetas */
+    padding: 40px 60px;
+    justify-items: center; /* Centra cada tarjeta */
+}
+
+.card {
+    background-color: #ffffff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    padding: 15px;
+    width: 100%;
+    max-width: 250px;
+    text-align: center;
+    border-radius: 15px; /* Bordes redondeados */
+    border: 1.5px solid transparent;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease, background-color 0.3s ease;
+}
+
+    .card:hover {
+        transform: translateY(-5px);
+        background-color: #faf9f7; /* blanco hueso claro */
+        border: 1.5px solid rgba(90, 0, 184, 0.5); /* borde morado suave */
+        box-shadow: 0 8px 20px rgba(75, 0, 130, 0.7), /* sombra intensa */
+        0 0 6px rgba(90, 0, 184, 0.25); /* sombra suave */
+    }
+
+    .card label {
+        display: block;
+        font-size: 20px;
+        font-weight: bold;
+        color: #4B0082;
+        margin-bottom: 10px;
+    }
+
+    .card img {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+    }
