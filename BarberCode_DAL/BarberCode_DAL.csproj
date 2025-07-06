@@ -164,14 +164,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CitaService.cs" />
+    <Compile Include="Dto\CitaDTO.cs" />
     <Compile Include="Dto\RolesDTO.cs" />
+    <Compile Include="Dto\ServicioDTO.cs" />
     <Compile Include="Dto\UsuarioDTO.cs" />
+    <Compile Include="Entidad\Cita.cs" />
     <Compile Include="Entidad\Roles.cs" />
+    <Compile Include="Entidad\Servicio.cs" />
     <Compile Include="Entidad\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RolesService.cs" />
+    <Compile Include="ServicioService.cs" />
     <Compile Include="UsuarioService.cs" />
+    <Compile Include="Util\CitaDbContext.cs" />
     <Compile Include="Util\RolesDbContext.cs" />
+    <Compile Include="Util\ServicioDbContext.cs" />
     <Compile Include="Util\UsuarioDbContext.cs" />
   </ItemGroup>
   <ItemGroup>

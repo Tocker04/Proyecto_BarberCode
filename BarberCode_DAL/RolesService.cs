@@ -12,7 +12,7 @@ namespace BarberCode_DAL
 {
     public class RolesService
     { 
-        public static List<RolesDTO> RolesS()
+        public static List<RolesDTO> ConsultarRolesS()
         {
             List<RolesDTO> RolesSDTOs = new List<RolesDTO>();
 
@@ -32,7 +32,9 @@ namespace BarberCode_DAL
             
             return RolesSDTOs;
         }
-        
+
+
+        ///////////////////////////////////Metodos CRUD//////////////////////////////////////////
         public static Roles ConsultarRoles(long Id)
         {
             using (var contexto = new RolesDbContext())

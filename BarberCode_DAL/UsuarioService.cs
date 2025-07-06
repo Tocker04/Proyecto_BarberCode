@@ -29,7 +29,35 @@ namespace BarberCode_DAL
             return UsuariosDTOs;
         }
 
+        public static Usuario ConsultarUsuario(long Id)
+        {
+            using (var contexto = new UsuarioDbContext())
+            {
+                return contexto.Usuarios.Find(Id);
+            }
+        }
 
+        public static List<UsuarioDTO> ReporteUsuarios(UsuarioDTO idUsuario)
+        {
+            List<UsuarioDTO> UsuariosDTOs = new List<UsuarioDTO>();
+
+            using (var contexto = new UsuarioDbContext())
+            {
+                foreach (Usuario Usuario in contexto.Usuarios.ToList())
+                {
+                    //bool UsuarioValida = idUsuario == null || Usuario.idUsuario.Id.Equals(idUsuario.Id);
+
+                    //if (UsuarioValida)
+                    {
+                        UsuariosDTOs.Add(new UsuarioDTO(Usuario));
+                    }
+                }
+            }
+
+            return UsuariosDTOs;
+        }
+
+        ///////////////////////////////////Metodos CRUD//////////////////////////////////////////
         //ya tiene la logica para agregar Usuarios desde la pagina
         public static string AgregarUsuario(UsuarioDTO UsuarioDTO)
         {

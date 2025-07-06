@@ -23,5 +23,10 @@ namespace BarberCode_DAL.Dto
             this.Id = Roles.Id;
             this.Nombre = Roles.Nombre;
         }
+
+        public static implicit operator RolesDTO(UsuarioDTO v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
