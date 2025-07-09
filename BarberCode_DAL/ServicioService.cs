@@ -70,7 +70,7 @@ namespace BarberCode_DAL
             {
                 using (var contexto = new ServicioDbContext())
                 {
-                    Servicio Servicio = contexto.Servicios.Find(ServicioDTO.Id);
+                    Servicio Servicio = contexto.Servicios.Find(ServicioDTO.ServicioId);
                     Servicio.Nombre = ServicioDTO.Nombre;
                     Servicio.Descripcion = ServicioDTO.Descripcion;
                     Servicio.Precio = ServicioDTO.Precio;

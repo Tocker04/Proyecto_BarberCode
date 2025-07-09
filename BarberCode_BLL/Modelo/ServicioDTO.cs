@@ -9,7 +9,7 @@ namespace BarberCode_BLL.Modelo
     public class ServicioDTO
     {
 
-        public long Id { get; set; }
+        public long ServicioId { get; set; }
 
         public string Nombre { get; set; }
 
@@ -24,7 +24,7 @@ namespace BarberCode_BLL.Modelo
 
         public ServicioDTO(BarberCode_DAL.Dto.ServicioDTO ServicioDTO)
         {
-            this.Id = ServicioDTO.Id;
+            this.ServicioId = ServicioDTO.ServicioId;
             this.Nombre = ServicioDTO.Nombre;
             this.Descripcion = ServicioDTO.Descripcion;
             this.Precio = ServicioDTO.Precio;

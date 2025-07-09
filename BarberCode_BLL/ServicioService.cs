@@ -52,10 +52,10 @@ namespace BarberCode_BLL
                 Descripcion = ServicioDTO.Descripcion,
                 Precio = ServicioDTO.Precio
             };
-            if (ServicioDTO.Id > 0)
+            if (ServicioDTO.ServicioId > 0)
             {
 
-                Servicio.Id = ServicioDTO.Id;
+                Servicio.ServicioId = ServicioDTO.ServicioId;
             }
             
             return Servicio;

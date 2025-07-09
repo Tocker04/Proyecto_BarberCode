@@ -95,7 +95,7 @@ namespace BarberCode_BLL
             {
                 Cita.Servicio = new BarberCode_DAL.Dto.ServicioDTO()
                 {
-                    Id = CitaDTO.Servicio.Id,
+                    ServicioId = CitaDTO.Servicio.ServicioId,
                     Nombre = CitaDTO.Servicio.Nombre
                 };
             }

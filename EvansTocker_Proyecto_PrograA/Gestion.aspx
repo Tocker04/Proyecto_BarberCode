@@ -42,7 +42,7 @@
             </asp:DropDownList>
             &nbsp;&nbsp;
 
-            <asp:Button ID="btnAgregarCita" runat="server" Text="Agregar Cita" OnClick="btnAgregarCita_Click" class="btn btn-success btn-lg" />
+            <asp:Button ID="btnAgregarCita" runat="server" Text="Agregar Cita" OnClick="BtnAgregarCita_Click" class="btn btn-success btn-lg" />
         </div>
 
         <br />
@@ -86,10 +86,13 @@
                     </asp:Repeater>
                 </tbody>
             </table>
+
+       <!-- luego aca va el script para los onclick de los botones EDITAR y ELIMINAR para que funcionen -->
+    
+
         </div>
     </div>
-         <!-- luego aca va el script para los onclick de los botones EDITAR y ELIMINAR para que funcionen -->
-
+        
    
     <!-- //////////////////////////////////////INICIA GESTIONAR USUARIOS////////////////////////////////// -->
 
@@ -124,7 +127,7 @@
         <asp:TextBox ID="txtTelefono" runat="server" placeholder="Teléfono" class="form-control" Width="160px" ClientIDMode="Static" />
         &nbsp;&nbsp;
 
-        <asp:Button ID="btnAgregarUsuario" runat="server" Text="Agregar Usuario" OnClick="btnAgregarUsuario_Click" class="btn btn-primary btn-lg" />
+        <asp:Button ID="btnAgregarUsuario" runat="server" Text="Agregar Usuario" OnClick="BtnAgregarUsuario_Click" class="btn btn-primary btn-lg" />
     </div>
 
     <br />
@@ -194,7 +197,7 @@
         <asp:TextBox ID="txtPrecio" runat="server" placeholder="Precio" class="form-control" Width="140px" ClientIDMode="Static" />
         &nbsp;&nbsp;
 
-        <asp:Button ID="btnAgregarServicio" runat="server" Text="Agregar Servicio" OnClick="btnAgregarServicio_Click" class="btn btn-primary btn-lg" />
+        <asp:Button ID="btnAgregarServicio" runat="server" Text="Agregar Servicio" OnClick="BtnAgregarServicio_Click" class="btn btn-primary btn-lg" />
     </div>
 
     <br /><br />
@@ -233,10 +236,41 @@
                 </asp:Repeater>
             </tbody>
         </table>
+        <!-- luego aca va el script para los onclick de los botones EDITAR y ELIMINAR para que funcionen -->
+        <script>
+            //Funcion de editar Servicios 
+            function editarServicio(idServicio) {
+                var elementoServicioId = document.getElementById('txtServicioId')
+                var elementoNombreServicio = document.getElementById('txtNombreServicio')
+                var elementoDescripcion = document.getElementById('txtDescripcion')
+                var elementoPrecio = document.getElementById('txtPrecio')
+
+                var elementoTr = document.getElementById('filaServicio' + idServicio)
+                var elementosTd = elementoTr.getElementsByTagName('td')
+
+                elementoServicioId.value = elementosTd[0].textContent
+                elementoNombreServicio.value = elementosTd[1].textContent
+                elementoDescripcion.value = elementosTd[2].textContent
+                elementoPrecio.value = elementosTd[3].textContent.replace(/[₡$,]/g, '').trim()
+            }
+
+            //Funcion de eliminar Servicios
+            function eliminarServicio(idServicio) {
+                $.ajax({
+                    url: 'Gestion.aspx?accion=eliminar&id=' + idServicio,
+                    type: 'POST',
+                    success: function (response) {
+                        location.reload()
+                    },
+                    error: function (xhr, status, error) {
+                    }
+                });
+            }
+        </script>
     </div>
 
     </div>
-     <!-- luego aca va el script para los onclick de los botones EDITAR y ELIMINAR para que funcionen -->
+
 
 
 </asp:Content>
