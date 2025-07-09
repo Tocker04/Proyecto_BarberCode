@@ -72,7 +72,7 @@ namespace BarberCode_BLL
             return resultado == null;
         }
 
-        public static bool EliminarProducto(long Id)
+        public static bool EliminarUsuario(long Id)
         {
             string resultado = BarberCode_DAL.UsuarioService.EliminarUsuario(Id);
             return resultado == null;
@@ -97,7 +97,7 @@ namespace BarberCode_BLL
             }
             if (UsuarioDTO.RolesId != null)
             {
-                Usuario.RolesId = new BarberCode_DAL.Dto.UsuarioDTO()
+                Usuario.RolesId = new BarberCode_DAL.Dto.RolesDTO()
                 {
                     Id = UsuarioDTO.RolesId.Id,
                     Nombre = UsuarioDTO.RolesId.Nombre
