@@ -35,6 +35,26 @@ namespace BarberCode_DAL
             }
         }
 
+        public static List<CitaDTO> ReporteCitas(CitaDTO idCita)
+        {
+            List<CitaDTO> CitasDTOs = new List<CitaDTO>();
+
+            using (var contexto = new CitaDbContext())
+            {
+                foreach (Cita Cita in contexto.Citas.ToList())
+                {
+                    //bool UsuarioValida = idUsuario == null || Usuario.idUsuario.Id.Equals(idUsuario.Id);
+
+                    //if (UsuarioValida)
+                    {
+                        CitasDTOs.Add(new CitaDTO(Cita));
+                    }
+                }
+            }
+
+            return CitasDTOs;
+        }
+
         ///////////////////////////////////Metodos CRUD//////////////////////////////////////////
         //ya tiene la logica para agregar Citas desde la pagina
         public static string AgregarCita(CitaDTO CitaDTO)
