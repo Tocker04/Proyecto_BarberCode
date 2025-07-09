@@ -65,7 +65,7 @@ namespace BarberCode_DAL
                 {
                     Fecha = CitaDTO.Fecha,
                     Hora = CitaDTO.Hora,
-                    servicioId = CitaDTO.Servicio.Id,
+                    servicioId = CitaDTO.Servicio.ServicioId,
                     clienteId = CitaDTO.UsuarioCli.Id,
                     barberoId = CitaDTO.UsuarioBar.Id
                 };
@@ -92,7 +92,7 @@ namespace BarberCode_DAL
                     Cita Cita = contexto.Citas.Find(CitaDTO.Id);
                     Cita.Fecha = CitaDTO.Fecha;
                     Cita.Hora = CitaDTO.Hora;
-                    Cita.servicioId = CitaDTO.Servicio.Id;
+                    Cita.servicioId = CitaDTO.Servicio.ServicioId;
                     Cita.clienteId = CitaDTO.UsuarioCli.Id;
                     Cita.barberoId = CitaDTO.UsuarioBar.Id;
                     contexto.SaveChanges();

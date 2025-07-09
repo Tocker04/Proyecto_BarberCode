@@ -17,7 +17,7 @@ namespace BarberCode_DAL.Entidad
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 
-        public long Id { get; set; }
+        public long ServicioId { get; set; }
 
         public string Nombre { get; set; }
 
@@ -32,7 +32,7 @@ namespace BarberCode_DAL.Entidad
 
         public Servicio(ServicioDTO ServicioDTO)
         {
-            this.Id = ServicioDTO.Id;
+            this.ServicioId = ServicioDTO.ServicioId;
             this.Nombre = ServicioDTO.Nombre;
             this.Descripcion = ServicioDTO.Descripcion;
             this.Precio = ServicioDTO.Precio;
