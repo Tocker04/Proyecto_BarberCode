@@ -48,7 +48,7 @@ namespace BarberCode_BLL
             {
                 Usuario = new BarberCode_DAL.Dto.UsuarioDTO()
                 {
-                    Id = UsuarioDTO.Id,
+                    UsuarioId = UsuarioDTO.UsuarioId,
                     Nombre = UsuarioDTO.Nombre
                 };
             }
@@ -90,16 +90,16 @@ namespace BarberCode_BLL
 
 
             };
-            if (UsuarioDTO.Id > 0)
+            if (UsuarioDTO.UsuarioId > 0)
             {
 
-                Usuario.Id = UsuarioDTO.Id;
+                Usuario.UsuarioId = UsuarioDTO.UsuarioId;
             }
             if (UsuarioDTO.RolesId != null)
             {
                 Usuario.RolesId = new BarberCode_DAL.Dto.RolesDTO()
                 {
-                    Id = UsuarioDTO.RolesId.Id,
+                    RolId = UsuarioDTO.RolesId.RolId,
                     Nombre = UsuarioDTO.RolesId.Nombre
                 };
             }

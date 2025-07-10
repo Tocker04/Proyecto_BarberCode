@@ -9,13 +9,13 @@ namespace BarberCode_BLL.Modelo
 {
    public class RolesDTO
     {
-        public long Id { get; set; }
+        public long RolId { get; set; }
 
         public string Nombre { get; set; }
 
         public RolesDTO(BarberCode_DAL.Dto.RolesDTO RolesDTO)
         {
-            this.Id = RolesDTO.Id;
+            this.RolId = RolesDTO.RolId;
             this.Nombre = RolesDTO.Nombre;
         }
     }

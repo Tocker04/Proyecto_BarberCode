@@ -70,7 +70,7 @@ namespace BarberCode_DAL
                     Nombre = UsuarioDTO.Nombre,
                     Correo = UsuarioDTO.Correo,
                     Telefono = UsuarioDTO.Telefono,
-                    rolId = UsuarioDTO.RolesId.Id,
+                    rolId = UsuarioDTO.RolesId.RolId,
                 };
                 using (var contexto = new UsuarioDbContext())
                 {
@@ -92,13 +92,13 @@ namespace BarberCode_DAL
             {
                 using (var contexto = new UsuarioDbContext())
                 {
-                    Usuario Usuario = contexto.Usuarios.Find(UsuarioDTO.Id);
+                    Usuario Usuario = contexto.Usuarios.Find(UsuarioDTO.UsuarioId);
                     Usuario.usuario = UsuarioDTO.usuario;
                     Usuario.Contrasenia = UsuarioDTO.Contrasenia;
                     Usuario.Nombre = UsuarioDTO.Nombre;
                     Usuario.Correo = UsuarioDTO.Correo;
                     Usuario.Telefono = UsuarioDTO.Telefono;
-                    Usuario.rolId = UsuarioDTO.RolesId.Id;
+                    Usuario.rolId = UsuarioDTO.RolesId.RolId;
                     contexto.SaveChanges();
                 }
             }

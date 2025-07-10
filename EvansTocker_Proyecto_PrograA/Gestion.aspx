@@ -156,7 +156,7 @@
                             <td><%# Eval("UsuarioId") %></td>
                             <td><%# Eval("Rol") %></td>
                             <td><%# Eval("Usuario") %></td>
-                            <td><%# Eval("Contrasena") %></td>
+                            <td><%# Eval("Contrasenia") %></td>
                             <td><%# Eval("Nombre") %></td>
                             <td><%# Eval("Correo") %></td>
                             <td><%# Eval("Telefono") %></td>

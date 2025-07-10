@@ -9,7 +9,7 @@ namespace BarberCode_DAL.Dto
 {
     public class CitaDTO
     {
-        public long Id { get; set; }
+        public long CitaId { get; set; }
 
         public DateTime Fecha { get; set; }
 
@@ -28,7 +28,7 @@ namespace BarberCode_DAL.Dto
 
         public CitaDTO(Cita Cita)
         {
-            this.Id = Cita.Id;
+            this.CitaId = Cita.CitaId;
             this.Fecha = Cita.Fecha;
             this.Hora = Cita.Hora;
             ///////////

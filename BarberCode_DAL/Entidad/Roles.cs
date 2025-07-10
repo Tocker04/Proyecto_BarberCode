@@ -14,7 +14,7 @@ namespace BarberCode_DAL.Entidad
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long Id { get; set; }
+        public long RolId { get; set; }
 
         public string Nombre { get; set; }
 
@@ -25,7 +25,7 @@ namespace BarberCode_DAL.Entidad
 
         public Roles(RolesDTO RolesDTO)
         {
-            Id = RolesDTO.Id;
+            RolId = RolesDTO.RolId;
             Nombre = RolesDTO.Nombre;
         }
     }
