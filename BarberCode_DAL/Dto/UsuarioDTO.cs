@@ -9,7 +9,7 @@ namespace BarberCode_DAL.Dto
 {
     public class UsuarioDTO
     {
-        public long Id { get; set; }
+        public long UsuarioId { get; set; }
 
         public string usuario { get; set; }
 
@@ -30,7 +30,7 @@ namespace BarberCode_DAL.Dto
 
         public UsuarioDTO(Usuario Usuario)
         {
-            this.Id = Usuario.Id;
+            this.UsuarioId = Usuario.UsuarioId;
             this.usuario = Usuario.usuario;
             this.Contrasenia = Usuario.Contrasenia;
             this.Nombre = Usuario.Nombre;

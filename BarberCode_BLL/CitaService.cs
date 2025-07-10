@@ -49,7 +49,7 @@ namespace BarberCode_BLL
             {
                 Cita = new BarberCode_DAL.Dto.CitaDTO()
                 {
-                    Id = CitaDTO.Id,
+                    CitaId = CitaDTO.CitaId,
                     //Nombre = UsuarioDTO.Nombre
                 };
             }
@@ -86,10 +86,10 @@ namespace BarberCode_BLL
                 Fecha = CitaDTO.Fecha,
                 Hora = CitaDTO.Hora          
             };
-            if (CitaDTO.Id > 0)
+            if (CitaDTO.CitaId > 0)
             {
 
-                Cita.Id = CitaDTO.Id;
+                Cita.CitaId = CitaDTO.CitaId;
             }
             if (CitaDTO.Servicio != null)
             {
@@ -105,7 +105,7 @@ namespace BarberCode_BLL
             {
                 Cita.UsuarioCli = new BarberCode_DAL.Dto.UsuarioDTO()
                 {
-                    Id = CitaDTO.UsuarioCli.Id,
+                    UsuarioId = CitaDTO.UsuarioCli.UsuarioId,
                     Nombre = CitaDTO.UsuarioCli.Nombre,
                 };
             }
@@ -114,7 +114,7 @@ namespace BarberCode_BLL
             {
                 Cita.UsuarioBar = new BarberCode_DAL.Dto.UsuarioDTO()
                 {
-                    Id = CitaDTO.UsuarioBar.Id,
+                    UsuarioId = CitaDTO.UsuarioBar.UsuarioId,
                     Nombre = CitaDTO.UsuarioBar.Nombre,
                 };
             }

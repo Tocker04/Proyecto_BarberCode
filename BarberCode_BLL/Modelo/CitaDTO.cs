@@ -8,7 +8,7 @@ namespace BarberCode_BLL.Modelo
 {
     public class CitaDTO
     {
-        public long Id { get; set; }
+        public long CitaId { get; set; }
 
         public DateTime Fecha { get; set; }
 
@@ -27,7 +27,7 @@ namespace BarberCode_BLL.Modelo
 
         public CitaDTO(BarberCode_DAL.Dto.CitaDTO CitaDTO)
         {
-            this.Id = CitaDTO.Id;
+            this.CitaId = CitaDTO.CitaId;
             this.Fecha = CitaDTO.Fecha;
             this.Hora = CitaDTO.Hora;
             ///////////

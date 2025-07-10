@@ -15,7 +15,7 @@ namespace BarberCode_DAL.Entidad
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 
-        public long Id { get; set; }
+        public long UsuarioId { get; set; }
 
         public string usuario { get; set; }
 

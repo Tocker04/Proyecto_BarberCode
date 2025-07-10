@@ -15,7 +15,7 @@ namespace BarberCode_DAL.Entidad
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 
-        public long Id { get; set; }
+        public long CitaId { get; set; }
 
         public DateTime Fecha { get; set; }
 

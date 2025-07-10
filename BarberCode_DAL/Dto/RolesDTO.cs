@@ -9,7 +9,7 @@ namespace BarberCode_DAL.Dto
 {
     public class RolesDTO
     {
-        public long Id { get; set; }
+        public long RolId { get; set; }
 
         public string Nombre { get; set; }
 
@@ -20,7 +20,7 @@ namespace BarberCode_DAL.Dto
 
         public RolesDTO(Roles Roles)
         {
-            this.Id = Roles.Id;
+            this.RolId = Roles.RolId;
             this.Nombre = Roles.Nombre;
         }
 
