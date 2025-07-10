@@ -104,21 +104,20 @@
     <div class="form-inline">
         <asp:TextBox ID="txtUsuarioId" runat="server" placeholder="ID de Usuario" Style="display: none" ClientIDMode="Static" />
 
-        <asp:DropDownList ID="ddlRol" runat="server" class="form-control" Width="180px" ClientIDMode="Static">
-            <asp:ListItem Text="Seleccionar Rol" Value="" />
+        <asp:DropDownList ID="ddlRol" runat="server" class="form-control" Width="180px" ClientIDMode="Static">           </asp:DropDownList>
+        &nbsp;&nbsp;
+        <!-- <asp:ListItem Text="Seleccionar Rol" Value="" />
             <asp:ListItem Text="Administrador" Value="1" />
             <asp:ListItem Text="Barbero" Value="2" />
-            <asp:ListItem Text="Cliente" Value="3" />
-        </asp:DropDownList>
-        &nbsp;&nbsp;
+            <asp:ListItem Text="Cliente" Value="3" /> -->
 
         <asp:TextBox ID="txtUsuario" runat="server" placeholder="Usuario" class="form-control" Width="180px" ClientIDMode="Static" />
         &nbsp;&nbsp;
 
-        <asp:TextBox ID="txtContrasena" runat="server" placeholder="Contraseña" TextMode="Password" class="form-control" Width="180px" ClientIDMode="Static" />
+        <asp:TextBox ID="txtContrasenia" runat="server" placeholder="Contraseña" TextMode="Password" class="form-control" Width="180px" ClientIDMode="Static" />
         &nbsp;&nbsp;
 
-        <asp:TextBox ID="txtNombreUsuario" runat="server" placeholder="Nombre Completo" class="form-control" Width="220px" ClientIDMode="Static" />
+        <asp:TextBox ID="txtNombreCompleto" runat="server" placeholder="Nombre Completo" class="form-control" Width="220px" ClientIDMode="Static" />
         &nbsp;&nbsp;
 
         <asp:TextBox ID="txtCorreo" runat="server" placeholder="Correo Electrónico" class="form-control" Width="220px" ClientIDMode="Static" />
@@ -154,7 +153,8 @@
                     <ItemTemplate>
                         <tr id='<%# "filaUsuario" + Eval("UsuarioId") %>'>
                             <td><%# Eval("UsuarioId") %></td>
-                            <td><%# Eval("Rol") %></td>
+                            <td style="visibility: hidden; display: none;"><%# Eval("RolesId.RolId") %></td>
+                            <td><%# Eval("RolesId.Nombre") %></td>
                             <td><%# Eval("Usuario") %></td>
                             <td><%# Eval("Contrasenia") %></td>
                             <td><%# Eval("Nombre") %></td>
@@ -173,10 +173,50 @@
                 </asp:Repeater>
             </tbody>
         </table>
-    </div>
 
+        <!--Script para los onclick de los botones EDITAR y ELIMINAR para que funcionen -->
+        <script>
+          //Funcion de editar Usuarios
+            function editarUsuario(idUsuario) {
+                var elementoId = document.getElementById('txtUsuarioId')
+                var elementoRolId = document.getElementById('ddlRol')
+                var elementoUsuario = document.getElementById('txtUsuario')
+                var elementoContrasenia = document.getElementById('txtContrasenia')
+                var elementoNombreCompleto = document.getElementById('txtNombreCompleto')
+                var elementoCorreo = document.getElementById('txtCorreo')
+                var elementoTelefono = document.getElementById('txtTelefono')
+
+                var elementoTr = document.getElementById('filaUsuario' + idUsuario)
+                var elementosTd = elementoTr.getElementsByTagName('td')
+
+                elementoId.value = elementosTd[0].textContent
+                elementoRolId.value = elementosTd[2].textContent
+                elementoUsuario.value = elementosTd[3].textContent
+                elementoContrasenia.value = elementosTd[4].textContent
+                elementoNombreCompleto.value = elementosTd[5].textContent
+                elementoCorreo.value = elementosTd[6].textContent
+                elementoTelefono.value = elementosTd[7].textContent
+            }
+
+            //Funicio de eliminar Usuario
+            function eliminarUsuario(idUsuario) {
+                $.ajax({
+                    url: 'Gestion.aspx?accion=eliminar&id=' + idUsuario,
+                    type: 'POST',
+                    success: function (response) {
+                        location.reload()
+                    },
+                    error: function (xhr, status, error) {
+                    }
+                });
+            }
+
+
+        </script>
+    </div>      
     </div>
-    <!-- luego aca va el script para los onclick de los botones EDITAR y ELIMINAR para que funcionen -->
+        
+    
 
    
     <!-- //////////////////////////////////////INICIA GESTIONAR SERVICIOS////////////////////////////////// -->
