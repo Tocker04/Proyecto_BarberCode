@@ -16,6 +16,10 @@ namespace EvansTocker_Proyecto_PrograA
         //De Gestion de Servicios//
         private static List<ServicioDTO> ServicioSS;
         /// /////////////////////////////////////////////
+        //De Gestion de Usuarios//
+        private static List<UsuarioDTO> UsuarioO;
+        private static List<RolesDTO> Roles;
+        /// /////////////////////////////////////////////
 
         /////////////////////////////////////////////////////////////////////////////////////////
         protected void Page_Load(object sender, EventArgs e)
@@ -27,11 +31,15 @@ namespace EvansTocker_Proyecto_PrograA
                 if (accion.Equals("eliminar"))
                 {
                     EliminarServicio(long.Parse(id));
+                    EliminarUsuario(long.Parse(id));
                 }
             }
             if (!IsPostBack)
             {
-                
+                //Usuario
+                CargarRoles();
+                RecargarUsuarios();//cargar la los datos de la bd (tabla Usuario) a la pagina de gestionar Usuarios
+                //Servicio
                 RecargarServicios();//cargar la los datos de la bd (tabla Servicios) a la pagina de gestionar Servicios
             }
 
@@ -57,14 +65,104 @@ namespace EvansTocker_Proyecto_PrograA
         ///////////////////////////////////////////SECCION DE USUARIO///////////////////////////////////////////////
         protected void BtnAgregarUsuario_Click(object sender, EventArgs e)
         {
-            //aun no tiene nada
+            
+            UsuarioDTO UsuarioDTO = new UsuarioDTO();
+            UsuarioDTO.RolesId = ObtenerRolesPorNombre(ddlRol.SelectedValue);
+            UsuarioDTO.usuario = txtUsuario.Text;
+            UsuarioDTO.Contrasenia = txtContrasenia.Text;
+            UsuarioDTO.Nombre = txtNombreCompleto.Text;
+            UsuarioDTO.Correo = txtCorreo.Text;
+            UsuarioDTO.Telefono = txtTelefono.Text;
 
+            bool Resultado;
+            if (txtUsuarioId.Text.Equals(""))
+            {
+                Resultado = UsuarioService.AgregarUsuario(UsuarioDTO);
+            }
+            else
+            {
+                UsuarioDTO.UsuarioId = long.Parse(txtUsuarioId.Text);
+                Resultado = UsuarioService.ModificarUsuario(UsuarioDTO);
+            }
+            if (Resultado)
+            {
+                Response.Redirect("Gestion.aspx");
+            }
+
+            // Limpiar los TextBox después de agregar el producto exitosamente
+            LimpiarTextBoxUsuario();
+
+
+        }
+
+
+        //0)Metodo para cargar la tabla(de BD) de Roles en el ddlRol y obtener el nombre
+        private void CargarRoles()
+        {
+            Roles = RolesService.ConsultarRolesS();
+            ddlRol.Items.Clear();
+            foreach (RolesDTO Roles in Roles)
+            {
+                ddlRol.Items.Add(Roles.Nombre);
+            }
+        }
+
+        //1)Para ver traer el consultar Usuarios de BLL
+        private List<UsuarioDTO> ObtenerUsuarios()
+        {
+            return UsuarioService.ConsultarUsuarios();
+        }
+        //2)Cargar los datos de la tabla Usuarios a la tabla, en Gestionar Usuarios
+        private void CargarDatosTablaUsuarios(List<UsuarioDTO> Usuarios)
+        {
+            rpUsuarios.DataSource = Usuarios;
+            rpUsuarios.DataBind();
+        }
+
+        //3)se recarga la tabla de Usuarios en caso de que se edite, agregue o elimine algun Usuario
+        private void RecargarUsuarios()
+        {
+            UsuarioO = ObtenerUsuarios();
+            CargarDatosTablaUsuarios(UsuarioO);
+        }
+
+        //4) Limpiar campos de texto
+        private void LimpiarTextBoxUsuario() { 
+        txtUsuarioId.Text = "";
+        ddlRol.ClearSelection(); // Limpiamos la selección del DropDownList
+        txtUsuario.Text = "";
+        txtContrasenia.Text = "";
+        txtNombreCompleto.Text = "";
+        txtCorreo.Text = "";
+        txtTelefono.Text = "";
+        }
+
+        //5) Obtener roles por nombre para guardar
+        private RolesDTO ObtenerRolesPorNombre(string nombre)
+        {
+            if (Roles != null)
+            {
+                foreach (RolesDTO Roles in Roles)
+                {
+                    if (Roles.Nombre.Equals(nombre))
+                    {
+                        return Roles;
+                    }
+                }
+            }
+            return null;
+        }
+
+        //6)Eliminar Usuario de la tabla y de la BD directamente
+        private bool EliminarUsuario(long id)
+        {
+            return BarberCode_BLL.UsuarioService.EliminarUsuario(id);
         }
 
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////
-        
+
 
 
         ///////////////////////////////////////////SECCION DE SERVICIO///////////////////////////////////////////////
@@ -93,7 +191,7 @@ namespace EvansTocker_Proyecto_PrograA
                 Response.Redirect("Gestion.aspx");
 
             }
-            LimpiarTextBox();
+            LimpiarTextBoxServicio();
 
         }
 
@@ -118,7 +216,7 @@ namespace EvansTocker_Proyecto_PrograA
         }
 
 
-        private void LimpiarTextBox()
+        private void LimpiarTextBoxServicio()
         {
             txtServicioId.Text = ""; 
             txtNombreServicio.Text = "";
