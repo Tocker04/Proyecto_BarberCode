@@ -15,6 +15,36 @@ body {
     margin: 30px auto;
     color:white;
 }
+#btnGenerarPDF {
+    display: block;
+    text-align: center;
+    font-size: 20px;
+    margin: 30px auto;
+    width: 75%;
+    background-color: #4B0082;
+    color: #fff;
+    padding: 10px 45px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    /* transición suave para efectos */
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+    /* Cambio de color al pasar el mouse */
+    #btnGenerarPdf:hover {
+        background-color: #551a8b; /* un morado más claro */
+    }
+
+    /* Efecto al hacer clic */
+    #btnGenerarPdf:active {
+        transform: scale(0.97);
+        background-color: #3a0066; /* un morado más oscuro */
+    }
+
 /* General */
 
 /* FIRST-CONTENT ESTILOS */

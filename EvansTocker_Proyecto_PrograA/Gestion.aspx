@@ -9,7 +9,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <h1 id="titulo1">Gestión</h1>
 
-
+    <asp:Button ID="btnGenerarPDF" runat="server" Text="Generar PDF" OnClick="btnGenerarPDF_Click" ClientIDMode="Static" />
      <!-- //////////////////////////////////////INICIA GESTIONAR CITAS////////////////////////////////// -->
     <div id="first-content">
         <h1>Gestionar Citas</h1>
@@ -106,10 +106,6 @@
 
         <asp:DropDownList ID="ddlRol" runat="server" class="form-control" Width="180px" ClientIDMode="Static">           </asp:DropDownList>
         &nbsp;&nbsp;
-        <!-- <asp:ListItem Text="Seleccionar Rol" Value="" />
-            <asp:ListItem Text="Administrador" Value="1" />
-            <asp:ListItem Text="Barbero" Value="2" />
-            <asp:ListItem Text="Cliente" Value="3" /> -->
 
         <asp:TextBox ID="txtUsuario" runat="server" placeholder="Usuario" class="form-control" Width="180px" ClientIDMode="Static" />
         &nbsp;&nbsp;
@@ -156,7 +152,7 @@
                             <td style="visibility: hidden; display: none;"><%# Eval("RolesId.RolId") %></td>
                             <td><%# Eval("RolesId.Nombre") %></td>
                             <td><%# Eval("Usuario") %></td>
-                            <td><%# Eval("Contrasenia") %></td>
+                            <td><%# new string('*', 8) %></td>
                             <td><%# Eval("Nombre") %></td>
                             <td><%# Eval("Correo") %></td>
                             <td><%# Eval("Telefono") %></td>
