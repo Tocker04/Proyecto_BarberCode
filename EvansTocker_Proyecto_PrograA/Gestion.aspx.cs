@@ -12,6 +12,12 @@ using iTextSharp.text;
 using iTextSharp.text.pdf; //para PDF
 using System.IO;
 
+//Para enviar SMS de confirmacion con API Twilio
+using System.Configuration;
+using Twilio;
+using Twilio.Rest.Api.V2010.Account;
+using Twilio.Types;
+
 namespace EvansTocker_Proyecto_PrograA
 {
     public partial class Gestion : System.Web.UI.Page
@@ -180,6 +186,14 @@ namespace EvansTocker_Proyecto_PrograA
             UsuarioDTO.Correo = txtCorreo.Text;
             UsuarioDTO.Telefono = txtTelefono.Text;
 
+
+
+            // ✅ Convertir a formato internacional si no empieza con "+"
+            if (!UsuarioDTO.Telefono.StartsWith("+"))
+            {
+                UsuarioDTO.Telefono = "+506" + UsuarioDTO.Telefono.TrimStart('0');
+            }
+
             bool Resultado;
             if (txtUsuarioId.Text.Equals(""))
             {
@@ -192,6 +206,8 @@ namespace EvansTocker_Proyecto_PrograA
             }
             if (Resultado)
             {
+                // Enviar SMS de confirmación
+                EnviarSmsConfirmacion(UsuarioDTO.Telefono, UsuarioDTO.Nombre);
                 Response.Redirect("Gestion.aspx");
             }
 
@@ -263,6 +279,25 @@ namespace EvansTocker_Proyecto_PrograA
         private bool EliminarUsuario(long id)
         {
             return BarberCode_BLL.UsuarioService.EliminarUsuario(id);
+        }
+
+        //7) Enviar confirmacion por SMS usando Twilio
+        private void EnviarSmsConfirmacion(string telefono, string nombre)
+        {
+            // Leer credenciales desde web.config
+            string accountSid = ConfigurationManager.AppSettings["TwilioAccountSid"];
+            string authToken = ConfigurationManager.AppSettings["TwilioAuthToken"];
+            string fromNumber = ConfigurationManager.AppSettings["TwilioPhoneNumber"];
+
+            TwilioClient.Init(accountSid, authToken);
+
+            var to = new PhoneNumber(telefono);
+            var from = new PhoneNumber(fromNumber);
+
+            var message = MessageResource.Create(
+                to: to,
+                from: from,
+                body: $"Hola {nombre}, tu usuario ha sido creado exitosamente en BarberCode. ¡Bienvenido!");
         }
 
 
