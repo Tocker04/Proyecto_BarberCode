@@ -8,6 +8,9 @@ using System.Web.UI.WebControls;
 using BarberCode_BLL;
 using BarberCode_BLL.Modelo;
 
+using iTextSharp.text;
+using iTextSharp.text.pdf; //para PDF
+using System.IO;
 
 namespace EvansTocker_Proyecto_PrograA
 {
@@ -45,9 +48,112 @@ namespace EvansTocker_Proyecto_PrograA
 
         }
 
+        /////////////////////PARA GENERAR REPORTE EN PDF DE LO QUE HAY EN BD///////////////// 
+        protected void btnGenerarPDF_Click(object sender, EventArgs e)
+        {
+            MemoryStream ms = new MemoryStream();
+            Document document = new Document(PageSize.A4, 20f, 20f, 20f, 20f);
+            PdfWriter writer = PdfWriter.GetInstance(document, ms);
+
+            document.Open();
+
+            // Encabezado
+            document.Add(new Paragraph("REPORTE GENERAL", new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD)));
+            document.Add(new Paragraph("Fecha: " + DateTime.Now.ToString("dd/MM/yyyy")));
+            document.Add(new Paragraph(" "));
+
+            // Título: Usuarios Registrados
+            Paragraph tituloUsuarios = new Paragraph("Usuarios Registrados", new Font(Font.FontFamily.HELVETICA, 14, Font.BOLD));
+            tituloUsuarios.SpacingBefore = 15f;
+            document.Add(tituloUsuarios);
+
+            PdfPTable tablaUsuarios = new PdfPTable(7);
+            tablaUsuarios.WidthPercentage = 100;
+
+            tablaUsuarios.AddCell("ID");
+            tablaUsuarios.AddCell("Rol");
+            tablaUsuarios.AddCell("Usuario");
+            tablaUsuarios.AddCell("Contraseña");
+            tablaUsuarios.AddCell("Nombre");
+            tablaUsuarios.AddCell("Correo");
+            tablaUsuarios.AddCell("Teléfono");
+
+            foreach (var usuario in UsuarioService.ConsultarUsuarios())
+            {
+                tablaUsuarios.AddCell(usuario.UsuarioId.ToString());
+                tablaUsuarios.AddCell(usuario.RolesId?.Nombre ?? "");
+                tablaUsuarios.AddCell(usuario.usuario);
+                tablaUsuarios.AddCell("********");
+                tablaUsuarios.AddCell(usuario.Nombre);
+                tablaUsuarios.AddCell(usuario.Correo);
+                tablaUsuarios.AddCell(usuario.Telefono);
+            }
+
+            document.Add(tablaUsuarios);
+
+            // Título: Citas Agendadas
+            Paragraph tituloCitas = new Paragraph("Citas Agendadas", new Font(Font.FontFamily.HELVETICA, 14, Font.BOLD));
+            tituloCitas.SpacingBefore = 20f;
+            document.Add(tituloCitas);
+
+            PdfPTable tablaCitas = new PdfPTable(6);
+            tablaCitas.WidthPercentage = 100;
+
+            tablaCitas.AddCell("ID");
+            tablaCitas.AddCell("Nombre");
+            tablaCitas.AddCell("Servicio");
+            tablaCitas.AddCell("Fecha");
+            tablaCitas.AddCell("Hora");
+            tablaCitas.AddCell("Barbero");
+
+            foreach (var cita in CitaService.ConsultarCitas())
+            {
+                tablaCitas.AddCell(cita.CitaId.ToString());
+                // tablaCitas.AddCell(cita.UsuarioCli); // si tuvieras nombre de cliente
+                // tablaCitas.AddCell(cita.Servicio);   // si tuvieras nombre de servicio
+                tablaCitas.AddCell(cita.Fecha.ToString("dd/MM/yyyy"));
+                tablaCitas.AddCell(cita.Hora.ToString(@"hh\:mm"));
+                // tablaCitas.AddCell(cita.BarberoCliente); // si tuvieras nombre de barbero
+            }
+
+            document.Add(tablaCitas);
+
+            // Título: Servicios Registrados
+            Paragraph tituloServicios = new Paragraph("Servicios Registrados", new Font(Font.FontFamily.HELVETICA, 14, Font.BOLD));
+            tituloServicios.SpacingBefore = 20f;
+            document.Add(tituloServicios);
+
+            PdfPTable tablaServicios = new PdfPTable(4);
+            tablaServicios.WidthPercentage = 100;
+
+            tablaServicios.AddCell("ID");
+            tablaServicios.AddCell("Nombre");
+            tablaServicios.AddCell("Descripción");
+            tablaServicios.AddCell("Precio");
+
+            foreach (var servicio in ServicioService.ConsultarServicios())
+            {
+                tablaServicios.AddCell(servicio.ServicioId.ToString());
+                tablaServicios.AddCell(servicio.Nombre);
+                tablaServicios.AddCell(servicio.Descripcion);
+                tablaServicios.AddCell("₡" + servicio.Precio.ToString("N2"));
+            }
+
+            document.Add(tablaServicios);
+
+            document.Close();
+            writer.Close();
+
+            // Descargar PDF
+            Response.ContentType = "application/pdf";
+            Response.AddHeader("content-disposition", "attachment;filename=ReporteGestion.pdf");
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            Response.BinaryWrite(ms.ToArray());
+            Response.End();
+        }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////
-        
+
 
 
         ///////////////////////////////////////////SECCION DE CITA///////////////////////////////////////////////
