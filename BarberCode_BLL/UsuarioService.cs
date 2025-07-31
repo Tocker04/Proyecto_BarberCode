@@ -54,9 +54,15 @@ namespace BarberCode_BLL
             }
             return Usuario;
         }
-       
+
+
+        public static bool ExisteCorreo(string correo)
+        {
+            return BarberCode_DAL.UsuarioService.ExisteCorreo(correo);
+        }
+
         /// ////////////////////////////////////////////////////////////////////////////////////
-       
+
 
 
         public static bool AgregarUsuario(UsuarioDTO UsuarioDTO)

@@ -37,10 +37,16 @@ namespace EvansTocker_Proyecto_PrograA
             {
                 string accion = Request.QueryString["accion"];
                 string id = Request.QueryString["id"];
-                if (accion.Equals("eliminar"))
+
+                //cambio 3
+                // Solo elimina lo que corresponde según el valor de 'accion'
+                if (accion.Equals("eliminarUsuario")) //Eliminar usuario 
+                {
+                    EliminarUsuario(long.Parse(id));
+                }
+                else if (accion.Equals("eliminarServicio")) //Eliminar Servicio
                 {
                     EliminarServicio(long.Parse(id));
-                    EliminarUsuario(long.Parse(id));
                 }
             }
             if (!IsPostBack)
@@ -48,6 +54,7 @@ namespace EvansTocker_Proyecto_PrograA
                 //Usuario
                 CargarRoles();
                 RecargarUsuarios();//cargar la los datos de la bd (tabla Usuario) a la pagina de gestionar Usuarios
+               
                 //Servicio
                 RecargarServicios();//cargar la los datos de la bd (tabla Servicios) a la pagina de gestionar Servicios
             }
@@ -194,6 +201,14 @@ namespace EvansTocker_Proyecto_PrograA
                 UsuarioDTO.Telefono = "+506" + UsuarioDTO.Telefono.TrimStart('0');
             }
 
+            // ⚠️ Validar si ya existe un usuario con el mismo correo
+            if (UsuarioService.ExisteCorreo(UsuarioDTO.Correo))
+            {
+                // ❌ Mostrar alerta flotante
+                ClientScript.RegisterStartupScript(this.GetType(), "alertaCorreo", "alert('Ya existe un usuario registrado con este correo.');", true);
+                return;
+            }
+
             bool Resultado;
             if (txtUsuarioId.Text.Equals(""))
             {
@@ -208,13 +223,15 @@ namespace EvansTocker_Proyecto_PrograA
             {
                 // Enviar SMS de confirmación
                 EnviarSmsConfirmacion(UsuarioDTO.Telefono, UsuarioDTO.Nombre);
-                Response.Redirect("Gestion.aspx");
+
+               
+
+                // ✅ Recargar los datos en el Repeater directamente
+                Response.Redirect("Gestion.aspx"); // último
             }
-
-            // Limpiar los TextBox después de agregar el producto exitosamente
+            // Limpiar campos
             LimpiarTextBoxUsuario();
-
-
+            //CAMBIO 2
         }
 
 
@@ -285,19 +302,27 @@ namespace EvansTocker_Proyecto_PrograA
         private void EnviarSmsConfirmacion(string telefono, string nombre)
         {
             // Leer credenciales desde web.config
-            string accountSid = ConfigurationManager.AppSettings["TwilioAccountSid"];
-            string authToken = ConfigurationManager.AppSettings["TwilioAuthToken"];
-            string fromNumber = ConfigurationManager.AppSettings["TwilioPhoneNumber"];
+            try
+            {
+                string accountSid = ConfigurationManager.AppSettings["TwilioAccountSid"];
+                string authToken = ConfigurationManager.AppSettings["TwilioAuthToken"];
+                string fromNumber = ConfigurationManager.AppSettings["TwilioPhoneNumber"];
 
-            TwilioClient.Init(accountSid, authToken);
+                TwilioClient.Init(accountSid, authToken);
 
-            var to = new PhoneNumber(telefono);
-            var from = new PhoneNumber(fromNumber);
+                var to = new PhoneNumber(telefono);
+                var from = new PhoneNumber(fromNumber);
 
-            var message = MessageResource.Create(
-                to: to,
-                from: from,
-                body: $"Hola {nombre}, tu usuario ha sido creado exitosamente en BarberCode. ¡Bienvenido!");
+                var message = MessageResource.Create(
+                    to: to,
+                    from: from,
+                    body: $"Hola {nombre}, tu usuario ha sido creado exitosamente en BarberCode. ¡Bienvenido!");
+            }
+            catch (Exception ex)
+            {
+                // Puedes registrar el error o mostrarlo en pantalla si quieres
+                System.Diagnostics.Debug.WriteLine("Error al enviar SMS: " + ex.Message);
+            } //cambio
         }
 
 

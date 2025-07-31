@@ -57,6 +57,15 @@ namespace BarberCode_DAL
             return UsuariosDTOs;
         }
 
+
+        public static bool ExisteCorreo(string correo)
+        {
+            using (var contexto = new UsuarioDbContext())
+            {
+                return contexto.Usuarios.Any(u => u.Correo == correo);
+            }
+        }
+
         ///////////////////////////////////Metodos CRUD//////////////////////////////////////////
         //ya tiene la logica para agregar Usuarios desde la pagina
         public static string AgregarUsuario(UsuarioDTO UsuarioDTO)
