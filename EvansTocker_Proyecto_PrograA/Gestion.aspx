@@ -123,6 +123,9 @@
         &nbsp;&nbsp;
 
         <asp:Button ID="btnAgregarUsuario" runat="server" Text="Agregar Usuario" OnClick="BtnAgregarUsuario_Click" class="btn btn-primary btn-lg" />
+   
+      
+
     </div>
 
     <br />
@@ -197,7 +200,7 @@
             //Funicio de eliminar Usuario
             function eliminarUsuario(idUsuario) {
                 $.ajax({
-                    url: 'Gestion.aspx?accion=eliminar&id=' + idUsuario,
+                    url: 'Gestion.aspx?accion=eliminarUsuario&id=' + idUsuario,
                     type: 'POST',
                     success: function (response) {
                         location.reload()
@@ -293,7 +296,7 @@
             //Funcion de eliminar Servicios
             function eliminarServicio(idServicio) {
                 $.ajax({
-                    url: 'Gestion.aspx?accion=eliminar&id=' + idServicio,
+                    url: 'Gestion.aspx?accion=eliminarServicio&id=' + idServicio,
                     type: 'POST',
                     success: function (response) {
                         location.reload()
