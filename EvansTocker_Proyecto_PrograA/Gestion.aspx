@@ -17,14 +17,11 @@
         <!-- Formulario para agregar o editar una cita -->
         <div class="form-inline">
             <asp:TextBox ID="txtCitaId" runat="server" placeholder="ID de Cita" Style="display: none" ClientIDMode="Static" />
-            <asp:TextBox ID="txtNombre" runat="server" placeholder="Nombre del Cliente" Width="200px" class="form-control" ClientIDMode="Static" />
+           <asp:DropDownList ID="ddlNombreCliente" runat="server" class="form-control" Width="180px" ClientIDMode="Static">
+            </asp:DropDownList>
             &nbsp;&nbsp;
 
             <asp:DropDownList ID="ddlServicio" runat="server" class="form-control" Width="160px" ClientIDMode="Static">
-                <asp:ListItem Text="Seleccionar Servicio" Value="" />
-                <asp:ListItem Text="Corte Clásico" Value="1" />
-                <asp:ListItem Text="Barba Completa" Value="2" />
-                <asp:ListItem Text="Tinte" Value="3" />
             </asp:DropDownList>
             &nbsp;&nbsp;
 
@@ -34,11 +31,7 @@
             <asp:TextBox ID="txtHora" runat="server" TextMode="Time" Width="130px" class="form-control" ClientIDMode="Static" />
             &nbsp;&nbsp;
 
-            <asp:DropDownList ID="ddlBarberoCliente" runat="server" class="form-control" Width="180px" ClientIDMode="Static">
-                <asp:ListItem Text="Seleccionar Barbero" Value="" />
-                <asp:ListItem Text="Juan Pérez" Value="1" />
-                <asp:ListItem Text="Carlos Gómez" Value="2" />
-                <asp:ListItem Text="Esteban Ramírez" Value="3" />
+            <asp:DropDownList ID="ddlBarbero" runat="server" class="form-control" Width="180px" ClientIDMode="Static">
             </asp:DropDownList>
             &nbsp;&nbsp;
 
@@ -55,11 +48,11 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Nombre</th>
+                        <th>Nombre Cliente</th>
                         <th>Servicio</th>
                         <th>Fecha</th>
                         <th>Hora</th>
-                        <th>Barbero/Cliente</th>
+                        <th>Nombre Barbero</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -68,11 +61,14 @@
                         <ItemTemplate>
                             <tr id='<%# "filaCita" + Eval("CitaId") %>'>
                                 <td><%# Eval("CitaId") %></td>
-                                <td><%# Eval("Nombre") %></td>
-                                <td><%# Eval("Servicio") %></td>
+                                <td style="visibility: hidden; display: none;"><%# Eval("UsuarioCli.UsuarioId") %></td>
+                                <td><%# Eval("UsuarioCli.Nombre") %></td>
+                                <td style="visibility: hidden; display: none;"><%# Eval("Servicio.ServicioId") %></td>
+                                <td><%# Eval("Servicio.Nombre") %></td>
                                 <td><%# Eval("Fecha", "{0:yyyy-MM-dd}") %></td>
                                 <td><%# Eval("Hora", "{0:hh\\:mm}") %></td>
-                                <td><%# Eval("BarberoCliente") %></td>
+                                <td style="visibility: hidden; display: none;"><%# Eval("UsuarioBar.UsuarioId") %></td>
+                                <td><%# Eval("UsuarioBar.Nombre") %></td>
                                 <td>
                                     <button type="button" class="btn btn-primary" onclick='editarCita(<%# Eval("CitaId") %>)'>
                                         <span class="glyphicon glyphicon-pencil"></span>
@@ -87,13 +83,48 @@
                 </tbody>
             </table>
 
-       <!-- luego aca va el script para los onclick de los botones EDITAR y ELIMINAR para que funcionen -->
-    
+            <!-- Script para los onclick de los botones EDITAR y ELIMINAR para que funcionen -->
+            <script>
+                //Funcion al boton de editarCita
+                function editarCita(idCita) {
+                    var elementoId = document.getElementById('txtCitaId')
+                    var elementoNombreCliente = document.getElementById('ddlNombreCliente')
+                    var elementoServicio = document.getElementById('ddlServicio')
+                    var elementoFecha = document.getElementById('txtFecha')
+                    var elementoHora = document.getElementById('txtHora')
+                    var elementoNombreBarbero = document.getElementById('ddlBarbero')
+
+                    var elementoTr = document.getElementById('filaCita' + idCita)
+                    var elementosTd = elementoTr.getElementsByTagName('td')
+
+                    elementoId.value = elementosTd[0].textContent
+                    elementoNombreCliente.value = elementosTd[2].textContent
+                    elementoServicio.value = elementosTd[4].textContent
+                    elementoFecha.value = elementosTd[5].textContent
+                    elementoHora.value = elementosTd[6].textContent
+                    elementoNombreBarbero.value = elementosTd[8].textContent
+
+                }
+
+                //Funcion para eliminarCita
+                function eliminarCita(idCita) {
+                    $.ajax({
+                        url: 'Gestion.aspx?accion=eliminarCita&id=' + idCita,
+                        type: 'POST',
+                        success: function (response) {
+                            location.reload()
+                        },
+                        error: function (xhr, status, error) {
+                        }
+                    });
+                }
+
+            </script>
 
         </div>
     </div>
-        
-   
+
+
     <!-- //////////////////////////////////////INICIA GESTIONAR USUARIOS////////////////////////////////// -->
 
     <div id="second-content">

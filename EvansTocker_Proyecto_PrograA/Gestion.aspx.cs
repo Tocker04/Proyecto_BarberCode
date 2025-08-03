@@ -8,6 +8,8 @@ using System.Web.UI.WebControls;
 using BarberCode_BLL;
 using BarberCode_BLL.Modelo;
 
+using WebListItem = System.Web.UI.WebControls.ListItem;
+
 using iTextSharp.text;
 using iTextSharp.text.pdf; //para PDF
 using System.IO;
@@ -29,6 +31,8 @@ namespace EvansTocker_Proyecto_PrograA
         private static List<UsuarioDTO> UsuarioO;
         private static List<RolesDTO> Roles;
         /// /////////////////////////////////////////////
+        /// 
+        private static List<CitaDTO> CitaA;
 
         /////////////////////////////////////////////////////////////////////////////////////////
         protected void Page_Load(object sender, EventArgs e)
@@ -48,6 +52,10 @@ namespace EvansTocker_Proyecto_PrograA
                 {
                     EliminarServicio(long.Parse(id));
                 }
+                else if (accion.Equals("eliminarCita")) //Eliminar Cita
+                {
+                    EliminarCita(long.Parse(id));
+                }
             }
             if (!IsPostBack)
             {
@@ -57,6 +65,12 @@ namespace EvansTocker_Proyecto_PrograA
                
                 //Servicio
                 RecargarServicios();//cargar la los datos de la bd (tabla Servicios) a la pagina de gestionar Servicios
+
+                //Cita
+                CargarClientes();//carcgar los clientes registrados de la bd
+                CargarBarberos(); //cargar los barberos registrados de la bd
+                CargarServicios();//cargar los servicios registrados de la bd
+                RecargarCitas();//cargar la los datos de la bd (tabla Citas) a la pagina de gestionar Citas
             }
 
         }
@@ -172,14 +186,213 @@ namespace EvansTocker_Proyecto_PrograA
         ///////////////////////////////////////////SECCION DE CITA///////////////////////////////////////////////
         protected void BtnAgregarCita_Click(object sender, EventArgs e)
         {
-           //aun no tiene nada
-            
+            //aun no tiene nada
+            CitaDTO CitaDTO = new CitaDTO();
+            CitaDTO.UsuarioCli = ObtenerUsuarioPorNombre(ddlNombreCliente.SelectedValue);
+            CitaDTO.Servicio = ObtenerServicioPorNombre(ddlServicio.SelectedValue);
+
+            //manejo de errores en caso de fecha o hora mal escritas
+            if (!DateTime.TryParse(txtFecha.Text, out DateTime fecha))
+            {
+                // Mostrar mensaje de error o validación
+                return;
+            }
+            if (!TimeSpan.TryParse(txtHora.Text, out TimeSpan hora))
+            {
+                // Mostrar mensaje de error o validación
+                return;
+            }
+
+            CitaDTO.Fecha = fecha;
+            CitaDTO.Hora = hora;
+            CitaDTO.UsuarioBar = ObtenerUsuarioPorNombre(ddlBarbero.SelectedValue);
+
+
+            //cambiosss
+            // ❗ Validación para evitar doble cita al mismo barbero
+            // Validar existencia de cita duplicada
+            long? citaIdActual = null;
+            if (!string.IsNullOrWhiteSpace(txtCitaId.Text))
+            {
+                citaIdActual = long.Parse(txtCitaId.Text);
+            }
+
+            if (CitaYaExiste(CitaDTO.UsuarioBar.UsuarioId, fecha, hora, citaIdActual))
+            {
+                ScriptManager.RegisterStartupScript(this, GetType(), "alerta", "alert('Ya existe una cita con ese barbero a esa hora.');", true);
+                return;
+            }
+            // Insertar o modificar
+            bool Resultado;
+            if (citaIdActual == null)
+            {
+                Resultado = CitaService.AgregarCita(CitaDTO);
+            }
+            else
+            {
+                CitaDTO.CitaId = citaIdActual.Value;
+                Resultado = CitaService.ModificarCita(CitaDTO);
+            }
+
+            if (Resultado)
+                Response.Redirect("Gestion.aspx");
+
+            LimpiarTextBoxCita();
+
+
+        }
+
+        //0)Metodo para cargar la tabla(de BD) de Usuarios en el ddlNombreCliente y obtener el nombre
+        private void CargarClientes()
+        {
+            UsuarioO = UsuarioService.ConsultarUsuarios();
+            ddlNombreCliente.Items.Clear();
+
+            // Agregar manualmente la opción por defecto
+            ddlNombreCliente.Items.Add(new WebListItem("Seleccionar Cliente", ""));
+            foreach (UsuarioDTO Usuario in UsuarioO)
+            {
+                // Verificamos que el rol del usuario sea "cliente" (rolId = 3)
+                if (Usuario.RolesId != null && Usuario.RolesId.RolId == 3)
+                {
+                    ddlNombreCliente.Items.Add(Usuario.Nombre);
+                    //ddlNombreCliente.Items.Add(new WebListItem(Usuario.Nombre, Usuario.UsuarioId.ToString()));
+                }
+            }
+        }
+        //0)Metodo para cargar la tabla(de BD) de Usuarios en el dllBarbero y obtener el nombre
+        private void CargarBarberos()
+        {
+            UsuarioO = UsuarioService.ConsultarUsuarios();
+            ddlBarbero.Items.Clear();
+
+            // Agregar manualmente la opción por defecto
+            ddlBarbero.Items.Add(new WebListItem("Seleccionar Barbero", ""));
+            foreach (UsuarioDTO Usuario in UsuarioO)
+            {
+                // Verificamos que el rol del usuario sea "barbero" (rolId = 2)
+                if (Usuario.RolesId != null && Usuario.RolesId.RolId == 2)
+                {
+                    ddlBarbero.Items.Add(Usuario.Nombre);
+                    //ddlBarbero.Items.Add(new WebListItem(Usuario.Nombre, Usuario.UsuarioId.ToString()));
+                }
+            }
+        }
+
+        //0)Metodo para cargar la tabla(de BD) de Servicios en el dllBarbero y obtener el nombre
+        private void CargarServicios()
+        {
+            ServicioSS = ServicioService.ConsultarServicios();
+            ddlServicio.Items.Clear();
+
+            // Agregar manualmente la opción por defecto
+            ddlServicio.Items.Add(new WebListItem("Seleccionar Servicio", ""));
+            foreach (ServicioDTO Servicio in ServicioSS)
+            {
+                ddlServicio.Items.Add(Servicio.Nombre);
+                //ddlServicio.Items.Add(new WebListItem(Servicio.Nombre, Servicio.ServicioId.ToString()));
+
+            }
         }
 
 
+
+        //1)Para ver traer el consultar Citas de BLL
+        private List<CitaDTO> ObtenerCitas()
+        {
+            return CitaService.ConsultarCitas();
+        }
+        //2)Cargar los datos de la tabla Citas a la tabla, en Gestionar Citas
+        private void CargarDatosTablaCitas(List<CitaDTO> Citas)
+        {
+            rpCitas.DataSource = Citas;
+            rpCitas.DataBind();
+        }
+
+        //3)se recarga la tabla de Citas en caso de que se edite, agregue o elimine alguna Cita
+        private void RecargarCitas()
+        {
+            CitaA = ObtenerCitas();
+            CargarDatosTablaCitas(CitaA);
+        }
+
+        //4) Limpiar campos de texto
+        private void LimpiarTextBoxCita()
+        {
+            txtCitaId.Text = "";
+            ddlNombreCliente.ClearSelection(); // Limpiamos la selección del DropDownList
+            ddlServicio.ClearSelection(); // Limpiamos la selección del DropDownList
+            txtFecha.Text = "";
+            txtHora.Text = "";
+            ddlBarbero.ClearSelection();// Limpiamos la selección del DropDownList
+        }
+
+        //5) Obtener Usuarios por nombre para guardar
+        private UsuarioDTO ObtenerUsuarioPorNombre(string nombre)
+        {
+            if (UsuarioO != null)
+            {
+                foreach (UsuarioDTO Usuario in UsuarioO)
+                {
+                    if (Usuario.Nombre.Equals(nombre))
+                    {
+                        return Usuario;
+                    }
+                }
+            }
+            return null;
+        } //tal vez haya que hacer uno para cliente y otro para barbero
+
+        //6) Obtener Servicios por nombre para guardar
+        private ServicioDTO ObtenerServicioPorNombre(string nombre)
+        {
+            if (ServicioSS != null)
+            {
+                foreach (ServicioDTO Servicio in ServicioSS)
+                {
+                    if (Servicio.Nombre.Equals(nombre))
+                    {
+                        return Servicio;
+                    }
+                }
+            }
+            return null;
+        }
+
+        //7)Eliminar Cita de la tabla y de la BD directamente
+        private bool EliminarCita(long id)
+        {
+            return BarberCode_BLL.CitaService.EliminarCita(id);
+        }
+
+        //8) Validacion de cita, verificar antes de crear otra cita, que no sea a la misma hora y dia que una ya existente
+        private bool CitaYaExiste(long barberoId, DateTime fecha, TimeSpan hora, long? citaIdActual = null)
+        {
+            var citas = CitaService.ConsultarCitas(); // Obtiene todas las citas
+
+            foreach (var cita in citas)
+            {
+                // Verifica si coincide barbero, fecha y hora
+                if (cita.UsuarioBar.UsuarioId == barberoId &&
+                    cita.Fecha.Date == fecha.Date &&
+                    cita.Hora == hora)
+                {
+                    // Si estamos modificando, ignorar la misma cita
+                    if (citaIdActual != null && cita.CitaId == citaIdActual)
+                        continue;
+
+                    return true; // Ya existe una cita en ese horario con ese barbero
+                }
+            }
+
+            return false; // No existe, se puede registrar
+        }
+
+
+
         /////////////////////////////////////////////////////////////////////////////////////////////////////////
-      
-       
+
+
 
         ///////////////////////////////////////////SECCION DE USUARIO///////////////////////////////////////////////
         protected void BtnAgregarUsuario_Click(object sender, EventArgs e)
