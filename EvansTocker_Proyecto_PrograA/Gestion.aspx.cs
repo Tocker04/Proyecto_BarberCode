@@ -127,7 +127,7 @@ namespace EvansTocker_Proyecto_PrograA
             tablaCitas.WidthPercentage = 100;
 
             tablaCitas.AddCell("ID");
-            tablaCitas.AddCell("Nombre");
+            tablaCitas.AddCell("Cliente");
             tablaCitas.AddCell("Servicio");
             tablaCitas.AddCell("Fecha");
             tablaCitas.AddCell("Hora");
@@ -136,11 +136,11 @@ namespace EvansTocker_Proyecto_PrograA
             foreach (var cita in CitaService.ConsultarCitas())
             {
                 tablaCitas.AddCell(cita.CitaId.ToString());
-                // tablaCitas.AddCell(cita.UsuarioCli); // si tuvieras nombre de cliente
-                // tablaCitas.AddCell(cita.Servicio);   // si tuvieras nombre de servicio
+                tablaCitas.AddCell(cita.UsuarioCli?.Nombre ?? "");  // Cliente
+                tablaCitas.AddCell(cita.Servicio?.Nombre ?? "");     // Servicio
                 tablaCitas.AddCell(cita.Fecha.ToString("dd/MM/yyyy"));
                 tablaCitas.AddCell(cita.Hora.ToString(@"hh\:mm"));
-                // tablaCitas.AddCell(cita.BarberoCliente); // si tuvieras nombre de barbero
+                tablaCitas.AddCell(cita.UsuarioBar?.Nombre ?? "");   // Barbero
             }
 
             document.Add(tablaCitas);
