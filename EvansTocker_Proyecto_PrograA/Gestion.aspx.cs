@@ -414,24 +414,26 @@ namespace EvansTocker_Proyecto_PrograA
                 UsuarioDTO.Telefono = "+506" + UsuarioDTO.Telefono.TrimStart('0');
             }
 
-            // ⚠️ Validar si ya existe un usuario con el mismo correo
-            if (UsuarioService.ExisteCorreo(UsuarioDTO.Correo))
-            {
-                // ❌ Mostrar alerta flotante
-                ClientScript.RegisterStartupScript(this.GetType(), "alertaCorreo", "alert('Ya existe un usuario registrado con este correo.');", true);
-                return;
-            }
-
             bool Resultado;
             if (txtUsuarioId.Text.Equals(""))
             {
+                // ✅ Es un nuevo usuario → Validar si el correo ya existe
+                if (UsuarioService.ExisteCorreo(UsuarioDTO.Correo))
+                {
+                    ClientScript.RegisterStartupScript(this.GetType(), "alertaCorreo", "alert('Ya existe un usuario registrado con este correo.');", true);
+                    return;
+                }
+
                 Resultado = UsuarioService.AgregarUsuario(UsuarioDTO);
             }
             else
             {
+                // 🛠 Edición de usuario → NO validar correo duplicado
                 UsuarioDTO.UsuarioId = long.Parse(txtUsuarioId.Text);
                 Resultado = UsuarioService.ModificarUsuario(UsuarioDTO);
             }
+
+            //CAMBIO, AQUI SIRVE
             if (Resultado)
             {
                 // Enviar SMS de confirmación
@@ -530,6 +532,8 @@ namespace EvansTocker_Proyecto_PrograA
                     to: to,
                     from: from,
                     body: $"Hola {nombre}, tu usuario ha sido creado exitosamente en BarberCode. ¡Bienvenido!");
+                //el mensaje se enviara a mi numero solamente, porque la cuenta de Twilio es version de prueba,
+                //entonces solo deja mandar a mensajes a numeros verficados/agregados en la pagina de Twilio
             }
             catch (Exception ex)
             {
