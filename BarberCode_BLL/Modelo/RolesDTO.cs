@@ -13,6 +13,10 @@ namespace BarberCode_BLL.Modelo
 
         public string Nombre { get; set; }
 
+        public RolesDTO()
+        {
+
+        }
         public RolesDTO(BarberCode_DAL.Dto.RolesDTO RolesDTO)
         {
             this.RolId = RolesDTO.RolId;

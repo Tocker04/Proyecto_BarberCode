@@ -29,6 +29,8 @@
                         <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a> -->
                     </div>
                     <span>Ingrese la siguiente información</span>
+                    <!--<asp:TextBox ID="txtRol" runat="server" CssClass="input-estilo" Text="3" Visible="false"></asp:TextBox> -->
+                    <asp:TextBox ID="txtUsuarioId" runat="server" CssClass="input-estilo"  Visible="false" Placeholder="Usuario"></asp:TextBox>
                     <asp:TextBox ID="txtUsuario" runat="server" CssClass="input-estilo" Placeholder="Usuario"></asp:TextBox>
                     <asp:TextBox ID="txtContrasenia" runat="server" CssClass="input-estilo" TextMode="Password" Placeholder="Contraseña"></asp:TextBox>
                     <asp:TextBox ID="txtNombre" runat="server" CssClass="input-estilo" Placeholder="Nombre"></asp:TextBox>
