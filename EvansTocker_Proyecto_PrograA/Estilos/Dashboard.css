@@ -31,11 +31,11 @@ body {
     }
 
     /* Nombre de usuario */
-    .bienvenida-container label {
-        font-size: 4rem;
-        font-weight: bold;
-        color: white;
-    }
+.nombre-usuario {
+    font-size: 4rem;
+    font-weight: bold;
+    color: white;
+}
 
 /*FIRST Y SECOND CONTENT*/
 

@@ -22,12 +22,7 @@
             <div class="form-container sign-up"> <!-- Registro de usuario-->
                 <div class="form-content">
                     <h1>Crear una cuenta</h1>
-                    <div class="social-icons">
-                      <!--  <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
-                        <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
-                        <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
-                        <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a> -->
-                    </div>
+                    <div class="social-icons"></div>
                     <span>Ingrese la siguiente información</span>
                     <!--<asp:TextBox ID="txtRol" runat="server" CssClass="input-estilo" Text="3" Visible="false"></asp:TextBox> -->
                     <asp:TextBox ID="txtUsuarioId" runat="server" CssClass="input-estilo"  Visible="false" Placeholder="Usuario"></asp:TextBox>

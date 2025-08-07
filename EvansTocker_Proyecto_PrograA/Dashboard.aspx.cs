@@ -11,10 +11,17 @@ namespace EvansTocker_Proyecto_PrograA
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["UsuarioId"] == null)
+            if (!IsPostBack)
             {
-                // Si no hay sesión, redirige al login
-                Response.Redirect("~/Vistas/login.aspx");
+                if (Session["NombreUsuario"] != null)
+                {
+                    lblNombreUsuario.Text = Session["NombreUsuario"].ToString();
+                }
+                else
+                {
+                    // Redirige si no hay sesión activa
+                    Response.Redirect("Login.aspx");
+                }
             }
         }
 
