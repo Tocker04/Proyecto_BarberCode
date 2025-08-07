@@ -44,12 +44,7 @@
             <div class="form-container sign-in">   <!-- Inicio de sesion de usuario-->
                 <div class="form-content">
                     <h1>Iniciar Sesión</h1>
-                    <div class="social-icons">
-                       <!-- <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
-                        <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
-                        <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
-                        <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a> -->
-                    </div>
+                    <div class="social-icons"></div>
                     <span>Ingrese sus datos</span>
                     <asp:TextBox ID="txtUsuarioLog" runat="server" CssClass="input-estilo" Placeholder="Usuario"></asp:TextBox>
                     <asp:TextBox ID="txtContraseniaLog" runat="server" CssClass="input-estilo" TextMode="Password" Placeholder="Contraseña"></asp:TextBox>

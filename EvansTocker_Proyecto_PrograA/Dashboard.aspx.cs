@@ -11,7 +11,11 @@ namespace EvansTocker_Proyecto_PrograA
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (Session["UsuarioId"] == null)
+            {
+                // Si no hay sesión, redirige al login
+                Response.Redirect("~/Vistas/login.aspx");
+            }
         }
 
         protected void btnAgregarCita_Click(object sender, EventArgs e)
@@ -22,8 +26,9 @@ namespace EvansTocker_Proyecto_PrograA
 
         protected void BtnCerrarSesion_Click(object sender, EventArgs e)
         {
-            
+
             // Redirige a INDEX
+            Session.Clear(); // Borra todas las variables de sesión
             Response.Redirect("~/Index.aspx");
         }
     }

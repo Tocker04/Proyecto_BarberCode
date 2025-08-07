@@ -32,8 +32,39 @@ namespace EvansTocker_Proyecto_PrograA.Vistas
 
         protected void BtnIniciarSesion_Click(object sender, EventArgs e)
         {
-            // Redirige al dashboard o a la página deseada
-            Response.Redirect("~/Dashboard.aspx");
+            string usuarioIngresado = txtUsuarioLog.Text.Trim();
+            string contraseniaIngresada = txtContraseniaLog.Text.Trim();
+
+            // Validar campos vacíos
+            if (string.IsNullOrEmpty(usuarioIngresado) || string.IsNullOrEmpty(contraseniaIngresada))
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "alertaCampos", "alert('Por favor, complete ambos campos.');", true);
+                return;
+            }
+
+            // Consultar usuarios registrados
+            List<UsuarioDTO> usuarios = UsuarioService.ConsultarUsuarios();
+
+            // Buscar coincidencia
+            var usuarioValido = usuarios.FirstOrDefault(u =>
+                u.usuario == usuarioIngresado && u.Contrasenia == contraseniaIngresada);
+
+            if (usuarioValido != null)
+            {
+                // ✅ Guardar datos en sesión
+                Session["UsuarioId"] = usuarioValido.UsuarioId;
+                Session["Nombre"] = usuarioValido.Nombre;
+                Session["RolId"] = usuarioValido.RolesId.RolId;
+                Session["Correo"] = usuarioValido.Correo;
+
+                // Redirigir al Dashboard
+                Response.Redirect("~/Dashboard.aspx");
+            }
+            else
+            {
+                // ❌ Usuario o contraseña incorrectos
+                ClientScript.RegisterStartupScript(this.GetType(), "alertaError", "alert('Usuario o contraseña incorrectos.');", true);
+            }
         }
 
         protected void BtnRegistrar_Click(object sender, EventArgs e)
