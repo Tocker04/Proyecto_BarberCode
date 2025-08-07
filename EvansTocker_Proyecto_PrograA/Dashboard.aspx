@@ -11,7 +11,7 @@
     
     <div class="bienvenida-container"> 
     <h1>Bienvenido</h1> 
-    <label id="lblNombreUsuario">*Nombre*</label>
+   <asp:Label ID="lblNombreUsuario" runat="server" Text="" CssClass="nombre-usuario"></asp:Label>
         </div>
 
     <div id="second-content">

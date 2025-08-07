@@ -53,7 +53,7 @@ namespace EvansTocker_Proyecto_PrograA.Vistas
             {
                 // ✅ Guardar datos en sesión
                 Session["UsuarioId"] = usuarioValido.UsuarioId;
-                Session["Nombre"] = usuarioValido.Nombre;
+                Session["NombreUsuario"] = usuarioValido.Nombre;
                 Session["RolId"] = usuarioValido.RolesId.RolId;
                 Session["Correo"] = usuarioValido.Correo;
 

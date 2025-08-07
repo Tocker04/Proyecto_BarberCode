@@ -37,6 +37,24 @@ namespace EvansTocker_Proyecto_PrograA
         /////////////////////////////////////////////////////////////////////////////////////////
         protected void Page_Load(object sender, EventArgs e)
         {
+            // 🔒 Verificar si hay sesión activa
+            if (Session["RolId"] == null)
+            {
+                Response.Redirect("login.aspx");
+                return;
+            }
+
+            int rolId = Convert.ToInt32(Session["RolId"]);
+
+            // 🔒 Si es cliente (RolId == 3), redirigirlo al Dashboard
+            if (rolId == 3)
+            {
+                Response.Redirect("Dashboard.aspx");
+                return;
+            } 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
             if (!string.IsNullOrEmpty(Request.QueryString["accion"]) && !string.IsNullOrEmpty(Request.QueryString["id"]))
             {
                 string accion = Request.QueryString["accion"];
