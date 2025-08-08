@@ -53,9 +53,11 @@ namespace EvansTocker_Proyecto_PrograA.Vistas
             {
                 // ✅ Guardar datos en sesión
                 Session["UsuarioId"] = usuarioValido.UsuarioId;
+                Session["Usuario"] = usuarioValido.usuario;
                 Session["NombreUsuario"] = usuarioValido.Nombre;
                 Session["RolId"] = usuarioValido.RolesId.RolId;
                 Session["Correo"] = usuarioValido.Correo;
+                Session["Telefono"] = usuarioValido.Telefono;
 
                 // Redirigir al Dashboard
                 Response.Redirect("~/Dashboard.aspx");
