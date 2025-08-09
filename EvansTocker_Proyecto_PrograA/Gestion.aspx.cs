@@ -40,7 +40,7 @@ namespace EvansTocker_Proyecto_PrograA
             // 🔒 Verificar si hay sesión activa
             if (Session["RolId"] == null)
             {
-                Response.Redirect("login.aspx");
+                Response.Redirect("Vistas/login.aspx");
                 return;
             }
 
@@ -79,6 +79,7 @@ namespace EvansTocker_Proyecto_PrograA
             {
                 //Usuario
                 CargarRoles();
+                ViewState["FiltroUsuarios"] = "todos"; // valor inicial
                 RecargarUsuarios();//cargar la los datos de la bd (tabla Usuario) a la pagina de gestionar Usuarios
                
                 //Servicio
@@ -88,8 +89,16 @@ namespace EvansTocker_Proyecto_PrograA
                 CargarClientes();//carcgar los clientes registrados de la bd
                 CargarBarberos(); //cargar los barberos registrados de la bd
                 CargarServicios();//cargar los servicios registrados de la bd
-                RecargarCitas();//cargar la los datos de la bd (tabla Citas) a la pagina de gestionar Citas
+                //RecargarCitas();//cargar la los datos de la bd (tabla Citas) a la pagina de gestionar Citas
+
+                ViewState["FiltroCitas"] = "todos";
+                AplicarFiltro();
+               UpdateFiltroButtonsCitas();
             }
+            // siempre (o al final del !IsPostBack) pintar el botón activo
+            UpdateFiltroButtons();
+
+            
 
         }
 
@@ -406,6 +415,92 @@ namespace EvansTocker_Proyecto_PrograA
             return false; // No existe, se puede registrar
         }
 
+        //Filtro de citas
+        // Guarda el filtro actual y muestra inputs según selección
+        protected void FiltrarCitas_Click(object sender, EventArgs e)
+        {
+            var btn = (Button)sender;
+            string filtro = btn.CommandArgument;
+            ViewState["FiltroCitas"] = filtro;
+
+            // Mostrar u ocultar inputs según filtro
+            txtFiltroFecha.Style["display"] = filtro == "dia" ? "inline-block" : "none";
+            txtFiltroMes.Style["display"] = filtro == "mes" ? "inline-block" : "none";
+            btnAplicarFiltro.Style["display"] = (filtro == "dia" || filtro == "mes") ? "inline-block" : "none";
+
+            // Si filtro es semana o todos, se filtra directamente:
+            if (filtro == "semana" || filtro == "todos")
+            {
+                AplicarFiltro();  // Filtra y carga datos
+            }
+
+            UpdateFiltroButtonsCitas();
+        }
+
+        // Aplica el filtro con las fechas seleccionadas (al presionar "Aplicar Filtro")
+        protected void AplicarFiltro_Click(object sender, EventArgs e)
+        {
+            AplicarFiltro();
+            UpdateFiltroButtonsCitas();
+        }
+
+        // Método que filtra y carga las citas según filtro y posibles fechas
+        private void AplicarFiltro()
+        {
+            var filtro = ViewState["FiltroCitas"]?.ToString() ?? "todos";
+            var citas = CitaService.ConsultarCitas();
+            DateTime hoy = DateTime.Today;
+
+            switch (filtro)
+            {
+                case "dia":
+                    if (DateTime.TryParse(txtFiltroFecha.Text, out DateTime fechaDia))
+                    {
+                        citas = citas.Where(c => c.Fecha.Date == fechaDia.Date).ToList();
+                    }
+                    break;
+
+                case "semana":
+                    var inicioSemana = hoy.AddDays(-(int)hoy.DayOfWeek);  // domingo
+                    var finSemana = inicioSemana.AddDays(6);             // sábado
+                    citas = citas.Where(c => c.Fecha >= inicioSemana && c.Fecha <= finSemana).ToList();
+                    break;
+
+                case "mes":
+                    if (!string.IsNullOrEmpty(txtFiltroMes.Text))
+                    {
+                        var partes = txtFiltroMes.Text.Split('-');
+                        if (partes.Length == 2 &&
+                            int.TryParse(partes[0], out int anio) &&
+                            int.TryParse(partes[1], out int mes))
+                        {
+                            citas = citas.Where(c => c.Fecha.Month == mes && c.Fecha.Year == anio).ToList();
+                        }
+                    }
+                    break;
+
+                case "todos":
+                default:
+                    // No filtrar
+                    break;
+            }
+
+            rpCitas.DataSource = citas;
+            rpCitas.DataBind();
+        }
+
+        // Actualiza las clases CSS para mostrar el botón activo
+        private void UpdateFiltroButtonsCitas()
+        {
+            string filtro = (ViewState["FiltroCitas"] ?? "todos").ToString();
+
+            btnFiltroTodos.CssClass = "btn btn-filtro-todos" + (filtro == "todos" ? " active" : "");
+            btnFiltroDia.CssClass = "btn btn-filtro-dia" + (filtro == "dia" ? " active" : "");
+            btnFiltroSemana.CssClass = "btn btn-filtro-semana" + (filtro == "semana" ? " active" : "");
+            btnFiltroMes.CssClass = "btn btn-filtro-mes" + (filtro == "mes" ? " active" : "");
+        }
+
+
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -559,8 +654,41 @@ namespace EvansTocker_Proyecto_PrograA
                 System.Diagnostics.Debug.WriteLine("Error al enviar SMS: " + ex.Message);
             } //cambio
         }
+        //filtrar tabla de usuarios
+        protected void FiltrarUsuarios_Click(object sender, EventArgs e)
+        {
+            var btn = (Button)sender;
+            string arg = btn.CommandArgument; // "todos" o "1"/"2"/"3"
+            ViewState["FiltroUsuarios"] = arg;
 
+            // Obtener todos:
+            var usuarios = UsuarioService.ConsultarUsuarios();
 
+            // Filtrar según argumento:
+            if (arg == "todos")
+            {
+                CargarDatosTablaUsuarios(usuarios);
+            }
+            else
+            {
+                long rolId = long.Parse(arg);
+                var filtrados = usuarios.Where(u => u.RolesId != null && u.RolesId.RolId == rolId).ToList();
+                CargarDatosTablaUsuarios(filtrados);
+            }
+
+            // Actualizar estilos de botones
+            UpdateFiltroButtons();
+        }
+        private void UpdateFiltroButtons()
+        {
+            // obtener filtro guardado (por defecto "todos")
+            string filtro = (ViewState["FiltroUsuarios"] ?? "todos").ToString();
+
+            btnTodos.CssClass = "btn btn-filtro-todos" + (filtro == "todos" ? " active" : "");
+            btnAdmins.CssClass = "btn btn-filtro-admins" + (filtro == "1" ? " active" : "");
+            btnClientes.CssClass = "btn btn-filtro-clientes" + (filtro == "3" ? " active" : "");
+            btnBarberos.CssClass = "btn btn-filtro-barberos" + (filtro == "2" ? " active" : "");
+        }
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////
 

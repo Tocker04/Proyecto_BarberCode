@@ -35,11 +35,24 @@
             </asp:DropDownList>
             &nbsp;&nbsp;
 
-            <asp:Button ID="btnAgregarCita" runat="server" Text="Agregar Cita" OnClick="BtnAgregarCita_Click" class="btn btn-success btn-lg" />
+            <asp:Button ID="btnAgregarCita" runat="server" Text="Agregar Cita" OnClick="BtnAgregarCita_Click" class="btn btn-primary btn-lg" />
         </div>
 
         <br />
         <br />
+
+        <div class="btn-group btn-group-filtros" role="group">
+    <asp:Button ID="btnFiltroTodos" runat="server" CssClass="btn btn-filtro-todos" Text="Todos" CommandArgument="todos" OnClick="FiltrarCitas_Click" />
+    <asp:Button ID="btnFiltroDia" runat="server" CssClass="btn btn-filtro-dia" Text="Por Día" CommandArgument="dia" OnClick="FiltrarCitas_Click" />
+    <asp:TextBox ID="txtFiltroFecha" runat="server" TextMode="Date" Style="display:none; margin-left:10px;" />
+
+    <asp:Button ID="btnFiltroSemana" runat="server" CssClass="btn btn-filtro-semana" Text="Semana Actual" CommandArgument="semana" OnClick="FiltrarCitas_Click" />
+    
+    <asp:Button ID="btnFiltroMes" runat="server" CssClass="btn btn-filtro-mes" Text="Por Mes" CommandArgument="mes" OnClick="FiltrarCitas_Click" />
+    <asp:TextBox ID="txtFiltroMes" runat="server" TextMode="Month" Style="display:none; margin-left:10px;" />
+
+    <asp:Button ID="btnAplicarFiltro" runat="server" Text="Aplicar Filtro" CssClass="btn" Style="display:none; margin-left:10px;" OnClick="AplicarFiltro_Click" />
+</div> 
 
         <!-- Tabla de citas -->
         <div>
@@ -119,6 +132,48 @@
                     });
                 }
 
+
+                document.addEventListener("DOMContentLoaded", function () {
+                    const botones = document.querySelectorAll(".btn-group-filtros .btn");
+                    const fechaDia = document.getElementById("fechaDia");
+                    const fechaMes = document.getElementById("fechaMes");
+
+                    botones.forEach(boton => {
+                        boton.addEventListener("click", function () {
+                            // Quitar activo a todos
+                            botones.forEach(b => b.classList.remove("active"));
+                            this.classList.add("active");
+
+                            let filtro = this.getAttribute("data-filtro");
+
+                            // Mostrar/ocultar inputs
+                            fechaDia.style.display = filtro === "dia" ? "inline-block" : "none";
+                            fechaMes.style.display = filtro === "mes" ? "inline-block" : "none";
+
+                            // Si es semana o todos, recargamos directamente
+                            if (filtro === "semana" || filtro === "todos") {
+                                window.location.href = "Gestion.aspx?filtro=" + filtro;
+                            }
+                        });
+                    });
+
+                    // Evento al cambiar fecha por día
+                    fechaDia.addEventListener("change", function () {
+                        let fecha = this.value;
+                        if (fecha) {
+                            window.location.href = "Gestion.aspx?filtro=dia&fecha=" + fecha;
+                        }
+                    });
+
+                    // Evento al cambiar mes
+                    fechaMes.addEventListener("change", function () {
+                        let fecha = this.value;
+                        if (fecha) {
+                            window.location.href = "Gestion.aspx?filtro=mes&mes=" + fecha;
+                        }
+                    });
+                });
+
             </script>
 
         </div>
@@ -161,7 +216,13 @@
 
     <br />
     <br />
-
+       <div class="btn-group-filtros" role="group" aria-label="Filtros de usuarios">
+    <asp:Button ID="btnTodos" runat="server" Text="Todos" CssClass="btn btn-filtro-todos active" OnClick="FiltrarUsuarios_Click" CommandArgument="todos" />
+    <asp:Button ID="btnAdmins" runat="server" Text="Administradores" CssClass="btn btn-filtro-admins" OnClick="FiltrarUsuarios_Click" CommandArgument="1" />
+    <asp:Button ID="btnClientes" runat="server" Text="Clientes" CssClass="btn btn-filtro-clientes" OnClick="FiltrarUsuarios_Click" CommandArgument="3" />
+    <asp:Button ID="btnBarberos" runat="server" Text="Barberos" CssClass="btn btn-filtro-barberos" OnClick="FiltrarUsuarios_Click" CommandArgument="2" />
+</div>
+<br /><br />
     <!-- Tabla de usuarios -->
     <div>
         <h1>Usuarios Registrados</h1>
@@ -239,8 +300,7 @@
                     error: function (xhr, status, error) {
                     }
                 });
-            }
-
+            }           
 
         </script>
     </div>      
