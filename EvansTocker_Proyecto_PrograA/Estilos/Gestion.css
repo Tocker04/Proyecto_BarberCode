@@ -179,4 +179,98 @@ body {
         font-size: 14px;
     }
 
-    
+/* Contenedor de botones de filtro */
+.btn-group-filtros {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centra horizontalmente los botones */
+    gap: 10px; /* espacio entre botones e inputs */
+}
+
+    /* Botones */
+    .btn-group-filtros .btn {
+        background-color: #4B0082;
+        color: white;
+        font-weight: 600;
+        font-size: 16px;
+        padding: 8px 20px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.1s ease;
+    }
+
+        .btn-group-filtros .btn:hover {
+            background-color: #551a8b;
+        }
+
+        .btn-group-filtros .btn:active {
+            transform: scale(0.97);
+        }
+
+        /* Botón activo resaltado */
+        .btn-group-filtros .btn.active {
+            background-color: #007bff; /* Azul intenso */
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 0 15px rgba(0, 123, 255, 0.8);
+            outline: 3px solid rgba(255, 255, 255, 0.8);
+            transform: scale(1.05);
+            transition: all 0.2s ease-in-out;
+        }
+
+/* Estilo para inputs de fecha y mes */
+#fechaDia, #fechaMes {
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    height: 36px;
+    box-sizing: border-box;
+}
+
+/* Colores personalizados para botones de filtro (unificados) */
+.btn-filtro-todos,
+.btn-filtro-admins,
+.btn-filtro-clientes,
+.btn-filtro-barberos {
+    background-color: #4B0082;
+    color: white;
+}
+
+    .btn-filtro-todos:hover,
+    .btn-filtro-admins:hover,
+    .btn-filtro-clientes:hover,
+    .btn-filtro-barberos:hover {
+        background-color: #551a8b;
+    }
+
+.btn-group-filtros input.btn {
+    background-color: #4B0082;
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+    padding: 8px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+    .btn-group-filtros input.btn:hover {
+        background-color: #551a8b;
+    }
+
+    .btn-group-filtros input.btn:active {
+        transform: scale(0.97);
+    }
+
+    .btn-group-filtros input.btn.active {
+        background-color: #007bff;
+        color: white;
+        font-weight: bold;
+        box-shadow: 0 0 15px rgba(0, 123, 255, 0.8);
+        outline: 3px solid rgba(255, 255, 255, 0.8);
+        transform: scale(1.05);
+        transition: all 0.2s ease-in-out;
+    }
